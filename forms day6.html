@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with All Input Types</title>
+   
+</head>
+<body>
+<center>
+    <h1>Complete Form with All Input Types</h1>
+    <form>
+        <!-- Text Input -->
+        <div class="form-group">
+            <label for="username">Text Input:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your name">
+        </div>
+        <hr>
+
+        <!-- Password Input -->
+        <div class="form-group">
+            <label for="password">Password Input:</label>
+            <input type="password" id="password" name="password" placeholder="Enter password">
+        </div>
+        <hr>
+
+        <!-- Email Input -->
+        <div class="form-group">
+            <label for="email">Email Input:</label>
+            <input type="email" id="email" name="email" placeholder="Enter email">
+        </div>
+        <hr>
+
+        <!-- Number Input -->
+        <div class="form-group">
+            <label for="age">Number Input:</label>
+            <input type="number" id="age" name="age" min="1" max="100" placeholder="Enter age">
+        </div>
+        <hr>
+
+        <!-- Telephone Input -->
+        <div class="form-group">
+            <label for="phone">Telephone Input:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number">
+        </div>
+        <hr>
+
+        <!-- URL Input -->
+        <div class="form-group">
+            <label for="website">URL Input:</label>
+            <input type="url" id="website" name="website" placeholder="Enter website URL">
+        </div>
+        <hr>
+
+        <!-- Date Input -->
+        <div class="form-group">
+            <label for="birthdate">Date Input:</label>
+            <input type="date" id="birthdate" name="birthdate">
+        </div>
+        <hr>
+
+        <!-- Time Input -->
+        <div class="form-group">
+            <label for="appointment">Time Input:</label>
+            <input type="time" id="appointment" name="appointment">
+        </div>
+        <hr>
+
+        <!-- DateTime Local Input -->
+        <div class="form-group">
+            <label for="meeting">DateTime Local Input:</label>
+            <input type="datetime-local" id="meeting" name="meeting">
+        </div>
+        <hr>
+
+        <!-- Month Input -->
+        <div class="form-group">
+            <label for="birthmonth">Month Input:</label>
+            <input type="month" id="birthmonth" name="birthmonth">
+        </div>
+        <hr>
+
+        <!-- Week Input -->
+        <div class="form-group">
+            <label for="vacationweek">Week Input:</label>
+            <input type="week" id="vacationweek" name="vacationweek">
+        </div>
+        <hr>
+
+        <!-- Color Input -->
+        <div class="form-group">
+            <label for="favcolor">Color Input:</label>
+            <input type="color" id="favcolor" name="favcolor" value="#000000">
+        </div>
+        <hr>
+
+        <!-- Checkbox Input -->
+        <div class="form-group checkbox-group">
+            <label>Checkbox Input:</label><br>
+            <input type="checkbox" id="checkbox1" name="checkbox1" value="option1">
+            <label for="checkbox1">Option 1</label>
+            <input type="checkbox" id="checkbox2" name="checkbox2" value="option2">
+            <label for="checkbox2">Option 2</label>
+            <input type="checkbox" id="checkbox3" name="checkbox3" value="option3">
+            <label for="checkbox3">Option 3</label>
+        </div>
+        <hr>
+
+        <!-- Radio Input -->
+        <div class="form-group radio-group">
+            <label>Radio Input:</label><br>
+            <input type="radio" id="radio1" name="radioGroup" value="radio1">
+            <label for="radio1">Radio Option 1</label>
+            <input type="radio" id="radio2" name="radioGroup" value="radio2">
+            <label for="radio2">Radio Option 2</label>
+            <input type="radio" id="radio3" name="radioGroup" value="radio3">
+            <label for="radio3">Radio Option 3</label>
+        </div>
+        <hr>
+
+        <!-- File Input -->
+        <div class="form-group">
+            <label for="fileupload">File Input:</label>
+            <input type="file" id="fileupload" name="fileupload">
+        </div>
+        <hr>
+
+        <!-- Hidden Input -->
+        <input type="hidden" name="hiddenField" value="hiddenValue">
+
+        <!-- Range Input -->
+        <div class="form-group">
+            <label for="volume">Range Input:</label>
+            <input type="range" id="volume" name="volume" min="0" max="100" value="50">
+        </div>
+        <hr>
+
+        <!-- Search Input -->
+        <div class="form-group">
+            <label for="search">Search Input:</label>
+            <input type="search" id="search" name="search" placeholder="Search...">
+        </div>
+        <hr>
+
+        <!-- Textarea -->
+        <div class="form-group">
+            <label for="message">Textarea:</label>
+            <textarea id="message" name="message" rows="4" placeholder="Enter your message"></textarea>
+        </div>
+        <hr>
+
+        <!-- Select Dropdown -->
+        <div class="form-group">
+            <label for="country">Select Dropdown:</label>
+            <select id="country" name="country">
+                <option value="">Select a country</option>
+                <option value="usa">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="canada">Canada</option>
+                <option value="australia">Australia</option>
+                <option value="india">India</option>
+            </select>
+        </div>
+        <hr>
+
+        <!-- Submit Button -->
+        <div class="button-group">
+            <input type="submit" value="Submit">
+            <input type="reset" value="Reset">
+            <button type="button" onclick="alert('Button clicked!')">Button</button>
+        </div>
+        <hr>
+        
+    </form>
+</center>
+</body>
+</html>
