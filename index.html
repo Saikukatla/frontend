@@ -1,107 +1,1571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Full Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Unbounded:wght@700;900&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060608;
+  --surface: #0e0e14;
+  --card: #12121a;
+  --border: #1e1e2e;
+  --border2: #2a2a3e;
+  --py: #3572A5;
+  --accent1: #FFD43B;
+  --accent2: #4B8BBE;
+  --accent3: #646464;
+  --green: #4ec94e;
+  --red: #ff6b6b;
+  --orange: #ffaa44;
+  --pink: #ff79c6;
+  --cyan: #8be9fd;
+  --purple: #bd93f9;
+  --text: #f0f0f8;
+  --muted: #7a7a9a;
+  --comment: #44475a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 5% 5%, rgba(53,114,165,0.13) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 35% at 95% 90%, rgba(255,212,59,0.08) 0%,transparent 55%);
+  pointer-events:none;z-index:0;
+}
+
+/* SIDEBAR NAV */
+.sidebar{
+  position:fixed;top:0;left:0;width:220px;height:100vh;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  overflow-y:auto;z-index:100;
+  padding:20px 0;
+}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-track{background:transparent;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.sidebar-logo{
+  padding:10px 20px 20px;
+  font-family:'Unbounded',sans-serif;
+  font-size:1rem;font-weight:900;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:flex;align-items:center;gap:8px;
+}
+.sidebar-logo::before{content:'🐍';font-size:1.2rem;-webkit-text-fill-color:initial;}
+.nav-item{
+  display:block;padding:8px 20px;
+  font-size:0.78rem;color:var(--muted);
+  text-decoration:none;
+  border-left:2px solid transparent;
+  transition:all 0.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.nav-item:hover,.nav-item.active{
+  color:var(--accent1);
+  border-left-color:var(--accent1);
+  background:rgba(255,212,59,0.06);
+}
+.nav-section{
+  padding:12px 20px 4px;
+  font-size:0.65rem;letter-spacing:1.5px;
+  color:var(--comment);text-transform:uppercase;font-family:'JetBrains Mono',monospace;
+}
+
+/* MAIN */
+.main{margin-left:220px;position:relative;z-index:1;}
+.container{max-width:880px;margin:0 auto;padding:40px 32px 100px;}
+
+/* HEADER */
+header{
+  text-align:center;padding:70px 40px;
+  margin-bottom:60px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;top:-2px;left:-2px;right:-2px;height:3px;
+  background:linear-gradient(90deg,var(--accent2),var(--accent1),var(--green));
+  border-radius:20px 20px 0 0;
+}
+header::after{
+  content:'>>> python';
+  position:absolute;bottom:16px;right:24px;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+  color:var(--comment);
+}
+.badge{
+  display:inline-block;
+  background:rgba(53,114,165,0.2);
+  border:1px solid rgba(75,139,190,0.4);
+  color:var(--accent2);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;padding:4px 14px;border-radius:20px;
+  margin-bottom:14px;letter-spacing:1px;
+}
+header h1{
+  font-family:'Unbounded',sans-serif;
+  font-size:clamp(2rem,5vw,3.2rem);font-weight:900;
+  background:linear-gradient(135deg,#fff 20%,var(--accent1) 55%,var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.15;
+}
+header p{color:var(--muted);margin-top:10px;font-size:0.95rem;}
+
+/* SECTION */
+.section{margin-bottom:40px;}
+.section-title{
+  font-family:'Unbounded',sans-serif;
+  font-size:1.15rem;font-weight:700;color:#fff;
+  margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+  padding-top:20px;
+}
+.section-title .num{
+  background:linear-gradient(135deg,var(--accent2),var(--accent1));
+  color:#000;font-size:0.72rem;
+  font-family:'JetBrains Mono',monospace;
+  padding:3px 10px;border-radius:6px;font-weight:700;
+  white-space:nowrap;
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:22px 26px;
+  margin-bottom:14px;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.card:hover{border-color:rgba(75,139,190,0.35);transform:translateY(-1px);}
+.card h3{font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:var(--accent1);margin-bottom:10px;}
+.card p,.card li{color:var(--muted);font-size:0.92rem;}
+.card ul,.card ol{padding-left:20px;}
+.card li{margin-bottom:5px;}
+.card strong{color:var(--text);}
+
+/* DEF BOX */
+.def-box{
+  background:rgba(75,139,190,0.08);
+  border:1px solid rgba(75,139,190,0.25);
+  border-left:3px solid var(--accent2);
+  border-radius:10px;
+  padding:14px 18px;margin:12px 0;
+}
+.def-box .def-title{
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+  color:var(--accent2);margin-bottom:6px;font-weight:700;letter-spacing:0.5px;
+}
+.def-box p{color:var(--text);font-size:0.9rem;}
+
+/* CODE BLOCK */
+.code-wrap{margin:14px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border2);}
+.code-header{
+  background:#1a1a28;
+  padding:8px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border2);
+}
+.code-header .lang{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent1);font-weight:600;}
+.code-header .dots{display:flex;gap:5px;}
+.code-header .dots span{width:10px;height:10px;border-radius:50%;}
+.code-header .dots .r{background:#ff5f57;}
+.code-header .dots .y{background:#febc2e;}
+.code-header .dots .g{background:#28c840;}
+.code-block{
+  background:#0f0f1a;
+  padding:18px 20px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.84rem;line-height:2;
+  overflow-x:auto;
+}
+.code-block::-webkit-scrollbar{height:4px;}
+.code-block::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* Syntax colors */
+.kw{color:#ff79c6;}        /* keywords: def, if, for... */
+.fn{color:#50fa7b;}        /* functions: print, input */
+.st{color:#f1fa8c;}        /* strings */
+.nm{color:#bd93f9;}        /* numbers */
+.cm{color:#6272a4;font-style:italic;} /* comments */
+.cl{color:#8be9fd;}        /* class names */
+.op{color:#ff79c6;}        /* operators */
+.var{color:#f8f8f2;}       /* variables */
+.bi{color:#ffb86c;}        /* builtins: True False None */
+.ln{color:#44475a;user-select:none;margin-right:14px;} /* line nums */
+
+/* IO BOX */
+.io-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.io-box{
+  background:#080810;
+  border:1px solid var(--border2);
+  border-radius:10px;padding:14px 16px;
+}
+.io-box.input-box{border-left:3px solid var(--accent2);}
+.io-box.output-box{border-left:3px solid var(--green);}
+.io-label{
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  margin-bottom:8px;font-weight:700;letter-spacing:1px;
+}
+.io-box.input-box .io-label{color:var(--accent2);}
+.io-box.output-box .io-label{color:var(--green);}
+.io-content{
+  font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  color:var(--text);line-height:1.8;
+}
+.io-content .prompt{color:var(--muted);}
+.io-content .out{color:var(--green);}
+.io-content .inp{color:var(--accent1);}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:14px;}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:14px;}
+
+/* TABLE */
+.py-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:0.87rem;}
+.py-table th{
+  background:rgba(255,212,59,0.12);color:var(--accent1);
+  padding:10px 14px;text-align:left;
+  font-family:'JetBrains Mono',monospace;
+  border-bottom:1px solid var(--border2);
+}
+.py-table td{padding:9px 14px;border-bottom:1px solid rgba(30,30,46,0.8);color:var(--muted);}
+.py-table tr:hover td{background:rgba(255,212,59,0.04);color:var(--text);}
+.py-table td:first-child{font-family:'JetBrains Mono',monospace;color:var(--cyan);}
+
+/* INLINE CODE */
+code{
+  font-family:'JetBrains Mono',monospace;
+  background:rgba(75,139,190,0.18);color:var(--cyan);
+  padding:2px 7px;border-radius:5px;font-size:0.85em;
+}
+
+/* TAG PILLS */
+.pill{
+  display:inline-block;
+  background:rgba(78,201,78,0.1);border:1px solid rgba(78,201,78,0.25);
+  color:var(--green);font-family:'JetBrains Mono',monospace;
+  font-size:0.73rem;padding:3px 9px;border-radius:20px;margin:3px;
+}
+
+/* NOTE */
+.note{
+  background:rgba(255,170,68,0.08);border:1px solid rgba(255,170,68,0.25);
+  border-left:3px solid var(--orange);
+  border-radius:8px;padding:12px 16px;margin:12px 0;
+  font-size:0.88rem;color:var(--text);
+}
+.note::before{content:'💡 Note: ';color:var(--orange);font-weight:600;}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:40px 0;}
+
+@media(max-width:700px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .container{padding:24px 16px 80px;}
+  .io-grid{grid-template-columns:1fr;}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+}
+</style>
 </head>
-<body> 
-    <section>
-    <center>
-   <h1>welcome to my portfolio</h1>
-    </center>
-   <a href="#about"> <button>About</button></a>
-   <a href="#skills"> <button>skills</button></a>
-   <a href="#projects"> <button>projects</button></a>
-   <a href="#contact"> <button>Contact me</button></a>
-   </section>
-<hr>
-<section>
-    <center>
-    <h1>KUKATLA VENKATA NAGA SAI TEJA</h1>
-    </center>
-<img src="./image/SPP.png" alt="Profile picture of Kukatla Venkata Naga Sai Teja" width="200" height="200">
-</section>
-<section id="about">
-<h1>ABOUT ME</h1>
-<P>  I am passionate web developer with a focus on front-end technologies.</P>
-<p>   I am recently completed my B Tech<em>gitam university </em>visakhapatnam</em></p>
-<p>I have  learnt web development from my academics.</p>
-<p>you can <strong>click here</strong>to checkout what i hve learnt in HTML,CSS,JS.</p>
-</section>
-<hr>
-<section id="skills">
-<MARK><h1>MY SKILLS</h1></MARK>
-<OL type="1">
+<body>
 
-    <li>c</li>
-    <li>python</li>
-    <li>html</li>
-    <li>css</li>
-    <li>javascript</li>
-    <li>sql</li>
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">Python Notes</div>
+  <span class="nav-section">Basics</span>
+  <a class="nav-item active" href="#intro">01. Introduction</a>
+  <a class="nav-item" href="#variables">02. Variables</a>
+  <a class="nav-item" href="#datatypes">03. Data Types</a>
+  <a class="nav-item" href="#operators">04. Operators</a>
+  <a class="nav-item" href="#input-output">05. Input / Output</a>
+  <span class="nav-section">Control Flow</span>
+  <a class="nav-item" href="#conditions">06. Conditions</a>
+  <a class="nav-item" href="#loops">07. Loops</a>
+  <a class="nav-item" href="#break-continue">08. Break / Continue</a>
+  <span class="nav-section">Functions</span>
+  <a class="nav-item" href="#functions">09. Functions</a>
+  <a class="nav-item" href="#lambda">10. Lambda</a>
+  <a class="nav-item" href="#scope">11. Scope</a>
+  <span class="nav-section">Data Structures</span>
+  <a class="nav-item" href="#lists">12. Lists</a>
+  <a class="nav-item" href="#tuples">13. Tuples</a>
+  <a class="nav-item" href="#sets">14. Sets</a>
+  <a class="nav-item" href="#dicts">15. Dictionaries</a>
+  <span class="nav-section">Advanced</span>
+  <a class="nav-item" href="#strings">16. Strings</a>
+  <a class="nav-item" href="#oops">17. OOP</a>
+  <a class="nav-item" href="#modules">18. Modules</a>
+  <a class="nav-item" href="#exceptions">19. Exceptions</a>
+  <a class="nav-item" href="#fileio">20. File I/O</a>
+  <a class="nav-item" href="#comprehensions">21. Comprehensions</a>
+  <a class="nav-item" href="#builtin">22. Built-in Functions</a>
+  <a class="nav-item" href="#cheatsheet">23. Cheat Sheet</a>
+</nav>
 
-</OL>
-</section>
-<hr>
-<section id="projects">
-<MARK><h1>MY PROJECTS</h1></MARK>
-    <table border="1" style="width:100%; border-collapse: collapse; text-align: left;">
-        <tr>
-            <th>Project Name</th>
-            <th>Description</th>
-            <th>Technologies Used</th>
-        </tr>
-        <tr>
-            <td>identification of vehicle documents at toll gates</td>
-            <td>A web application to identify vehicle documents at toll gates using image recognition.</td>
-            <td>python,flask,csv,HTML, CSS, JavaScript</td>
-        </tr>
-        <tr>
-            <td>budget tracker</td>
-            <td>A simple budget tracker application to manage personal finances.</td>
-            <td>python,flask,csv,HTML, CSS, JavaScript</td>
-        </tr>
+<!-- MAIN -->
+<div class="main">
+<div class="container">
 
+<!-- HEADER -->
+<header>
+  <div class="badge">🐍 COMPLETE REFERENCE</div>
+  <h1>Python Full Notes</h1>
+  <p>Theory · Definitions · Programs · Input & Output — All in one place</p>
+</header>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 01. INTRODUCTION -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="intro">
+  <div class="section-title"><span class="num">01</span> Introduction to Python</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Python</div>
+    <p>Python is a high-level, interpreted, general-purpose programming language created by <strong>Guido van Rossum</strong> in <strong>1991</strong>. It emphasizes code readability and simplicity using English-like syntax.</p>
+  </div>
+
+  <div class="card">
+    <h3>Key Features</h3>
+    <ul>
+      <li><strong>Interpreted</strong> — Code runs line by line; no compilation needed</li>
+      <li><strong>Dynamically Typed</strong> — No need to declare variable types</li>
+      <li><strong>High-Level</strong> — Closer to human language than machine language</li>
+      <li><strong>Object-Oriented</strong> — Supports classes and objects</li>
+      <li><strong>Open Source</strong> — Free to use and distribute</li>
+      <li><strong>Cross-Platform</strong> — Runs on Windows, Mac, Linux</li>
+      <li><strong>Indentation-based</strong> — Uses spaces/tabs instead of braces {}</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Applications of Python</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+      <span class="pill">Web Development</span><span class="pill">Data Science</span>
+      <span class="pill">Machine Learning</span><span class="pill">Automation</span>
+      <span class="pill">Game Development</span><span class="pill">Cybersecurity</span>
+      <span class="pill">Scripting</span><span class="pill">Desktop Apps</span>
+    </div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — First Program</span></div>
+    <div class="code-block">
+<span class="cm"># My first Python program</span>
+<span class="fn">print</span>(<span class="st">"Hello, World!"</span>)
+<span class="fn">print</span>(<span class="st">"Welcome to Python"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input required)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content"><span class="out">Hello, World!<br>Welcome to Python</span></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 02. VARIABLES -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="variables">
+  <div class="section-title"><span class="num">02</span> Variables &amp; Identifiers</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Variable</div>
+    <p>A variable is a <strong>named memory location</strong> used to store data. In Python, variables are created when you assign a value. No declaration keyword is needed.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Identifier</div>
+    <p>An identifier is the <strong>name given to a variable, function, class, or module</strong>. Rules: starts with letter/underscore, can contain letters/digits/underscores, case-sensitive, cannot be a keyword.</p>
+  </div>
+
+  <div class="card">
+    <h3>Rules for Variable Names</h3>
+    <ul>
+      <li>Must start with a <strong>letter (a–z, A–Z)</strong> or <strong>underscore _</strong></li>
+      <li>Can contain letters, digits (0–9), and underscores</li>
+      <li><strong>Cannot start with a digit</strong> — <code>2name</code> is invalid</li>
+      <li>Case sensitive — <code>name</code> ≠ <code>Name</code> ≠ <code>NAME</code></li>
+      <li>Cannot use Python <strong>keywords</strong> (if, for, while, etc.)</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Variables</span></div>
+    <div class="code-block">
+<span class="cm"># Variable assignment</span>
+<span class="var">name</span> <span class="op">=</span> <span class="st">"Alice"</span>
+<span class="var">age</span> <span class="op">=</span> <span class="nm">20</span>
+<span class="var">height</span> <span class="op">=</span> <span class="nm">5.6</span>
+<span class="var">is_student</span> <span class="op">=</span> <span class="bi">True</span>
+
+<span class="cm"># Multiple assignment</span>
+<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span> <span class="op">=</span> <span class="nm">10</span>, <span class="nm">20</span>, <span class="nm">30</span>
+
+<span class="cm"># Same value to multiple variables</span>
+<span class="var">x</span> <span class="op">=</span> <span class="var">y</span> <span class="op">=</span> <span class="var">z</span> <span class="op">=</span> <span class="nm">100</span>
+
+<span class="fn">print</span>(<span class="var">name</span>, <span class="var">age</span>, <span class="var">height</span>)
+<span class="fn">print</span>(<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span>)
+<span class="fn">print</span>(<span class="var">x</span>, <span class="var">y</span>, <span class="var">z</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content"><span class="out">Alice 20 5.6<br>10 20 30<br>100 100 100</span></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 03. DATA TYPES -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="datatypes">
+  <div class="section-title"><span class="num">03</span> Data Types</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Data Type</div>
+    <p>A data type defines the <strong>kind of value</strong> a variable holds and the operations that can be performed on it. Python automatically assigns the data type — this is called <strong>dynamic typing</strong>.</p>
+  </div>
+
+  <table class="py-table">
+    <tr><th>Type</th><th>Keyword</th><th>Example</th><th>Description</th></tr>
+    <tr><td>Integer</td><td>int</td><td>10, -5, 0</td><td>Whole numbers</td></tr>
+    <tr><td>Float</td><td>float</td><td>3.14, -2.5</td><td>Decimal numbers</td></tr>
+    <tr><td>Complex</td><td>complex</td><td>2+3j</td><td>Real + imaginary</td></tr>
+    <tr><td>String</td><td>str</td><td>"Hello"</td><td>Text / characters</td></tr>
+    <tr><td>Boolean</td><td>bool</td><td>True / False</td><td>Logical value</td></tr>
+    <tr><td>List</td><td>list</td><td>[1, 2, 3]</td><td>Ordered, mutable collection</td></tr>
+    <tr><td>Tuple</td><td>tuple</td><td>(1, 2, 3)</td><td>Ordered, immutable collection</td></tr>
+    <tr><td>Set</td><td>set</td><td>{1, 2, 3}</td><td>Unordered, unique values</td></tr>
+    <tr><td>Dictionary</td><td>dict</td><td>{"a":1}</td><td>Key-value pairs</td></tr>
+    <tr><td>NoneType</td><td>None</td><td>None</td><td>Absence of value</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Data Types + type()</span></div>
+    <div class="code-block">
+<span class="var">a</span> <span class="op">=</span> <span class="nm">10</span>
+<span class="var">b</span> <span class="op">=</span> <span class="nm">3.14</span>
+<span class="var">c</span> <span class="op">=</span> <span class="st">"Python"</span>
+<span class="var">d</span> <span class="op">=</span> <span class="bi">True</span>
+<span class="var">e</span> <span class="op">=</span> [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]
+<span class="var">f</span> <span class="op">=</span> <span class="bi">None</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">a</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">b</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">c</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">d</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">e</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">f</span>))
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">&lt;class 'int'&gt;<br>&lt;class 'float'&gt;<br>&lt;class 'str'&gt;<br>&lt;class 'bool'&gt;<br>&lt;class 'list'&gt;<br>&lt;class 'NoneType'&gt;</span>
+    </div></div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Type Conversion (Casting)</span></div>
+    <div class="code-block">
+<span class="var">x</span> <span class="op">=</span> <span class="fn">int</span>(<span class="st">"42"</span>)        <span class="cm"># str → int</span>
+<span class="var">y</span> <span class="op">=</span> <span class="fn">float</span>(<span class="nm">10</span>)       <span class="cm"># int → float</span>
+<span class="var">z</span> <span class="op">=</span> <span class="fn">str</span>(<span class="nm">3.14</span>)       <span class="cm"># float → str</span>
+<span class="var">b</span> <span class="op">=</span> <span class="fn">bool</span>(<span class="nm">0</span>)         <span class="cm"># int → bool (0 = False)</span>
+
+<span class="fn">print</span>(<span class="var">x</span>, <span class="fn">type</span>(<span class="var">x</span>))
+<span class="fn">print</span>(<span class="var">y</span>, <span class="fn">type</span>(<span class="var">y</span>))
+<span class="fn">print</span>(<span class="var">z</span>, <span class="fn">type</span>(<span class="var">z</span>))
+<span class="fn">print</span>(<span class="var">b</span>, <span class="fn">type</span>(<span class="var">b</span>))
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">42 &lt;class 'int'&gt;<br>10.0 &lt;class 'float'&gt;<br>3.14 &lt;class 'str'&gt;<br>False &lt;class 'bool'&gt;</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 04. OPERATORS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="operators">
+  <div class="section-title"><span class="num">04</span> Operators</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Operator</div>
+    <p>Operators are special <strong>symbols or keywords</strong> that perform operations on values (operands). Python has 7 types of operators.</p>
+  </div>
+
+  <table class="py-table">
+    <tr><th>Type</th><th>Operators</th><th>Example</th></tr>
+    <tr><td>Arithmetic</td><td>+ - * / // % **</td><td>5 + 3 = 8</td></tr>
+    <tr><td>Comparison</td><td>== != > &lt; >= &lt;=</td><td>5 > 3 → True</td></tr>
+    <tr><td>Assignment</td><td>= += -= *= /= //= %= **=</td><td>x += 5</td></tr>
+    <tr><td>Logical</td><td>and  or  not</td><td>True and False → False</td></tr>
+    <tr><td>Bitwise</td><td>&amp; | ^ ~ &lt;&lt; &gt;&gt;</td><td>5 &amp; 3 = 1</td></tr>
+    <tr><td>Identity</td><td>is  is not</td><td>x is y</td></tr>
+    <tr><td>Membership</td><td>in  not in</td><td>"a" in "cat" → True</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — All Operators</span></div>
+    <div class="code-block">
+<span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="nm">10</span>, <span class="nm">3</span>
+
+<span class="cm"># Arithmetic</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">+</span> <span class="var">b</span>)    <span class="cm"># 13  → Addition</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">-</span> <span class="var">b</span>)    <span class="cm"># 7   → Subtraction</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">*</span> <span class="var">b</span>)    <span class="cm"># 30  → Multiplication</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">/</span> <span class="var">b</span>)    <span class="cm"># 3.333 → Division</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">//</span> <span class="var">b</span>)   <span class="cm"># 3   → Floor division</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">%</span> <span class="var">b</span>)    <span class="cm"># 1   → Modulus (remainder)</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">**</span> <span class="var">b</span>)   <span class="cm"># 1000 → Power</span>
+
+<span class="cm"># Comparison</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">==</span> <span class="var">b</span>)   <span class="cm"># False</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">></span> <span class="var">b</span>)    <span class="cm"># True</span>
+
+<span class="cm"># Logical</span>
+<span class="fn">print</span>(<span class="bi">True</span> <span class="kw">and</span> <span class="bi">False</span>)  <span class="cm"># False</span>
+<span class="fn">print</span>(<span class="bi">True</span> <span class="kw">or</span> <span class="bi">False</span>)   <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="bi">True</span>)         <span class="cm"># False</span>
+
+<span class="cm"># Membership</span>
+<span class="fn">print</span>(<span class="st">"py"</span> <span class="kw">in</span> <span class="st">"python"</span>)   <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="nm">5</span> <span class="kw">not in</span> [<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>])   <span class="cm"># True</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">13<br>7<br>30<br>3.3333333333333335<br>3<br>1<br>1000<br>False<br>True<br>False<br>True<br>False<br>True<br>True</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 05. INPUT / OUTPUT -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="input-output">
+  <div class="section-title"><span class="num">05</span> Input &amp; Output</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — print()</div>
+    <p>The <strong>print()</strong> function displays output to the console. It can print strings, numbers, variables, and expressions.</p>
+  </div>
+  <div class="def-box">
+    <div class="def-title">DEFINITION — input()</div>
+    <p>The <strong>input()</strong> function reads a line from the user. It <strong>always returns a string</strong> — convert with int() or float() if needed.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — print() options</span></div>
+    <div class="code-block">
+<span class="fn">print</span>(<span class="st">"Hello"</span>, <span class="st">"World"</span>)            <span class="cm"># sep=" " by default</span>
+<span class="fn">print</span>(<span class="st">"Hello"</span>, <span class="st">"World"</span>, sep=<span class="st">"-"</span>)   <span class="cm"># custom separator</span>
+<span class="fn">print</span>(<span class="st">"Hello"</span>, end=<span class="st">" | "</span>)           <span class="cm"># custom end</span>
+<span class="fn">print</span>(<span class="st">"World"</span>)
+
+<span class="cm"># f-string (formatted string)</span>
+<span class="var">name</span> <span class="op">=</span> <span class="st">"Alice"</span>
+<span class="var">age</span> <span class="op">=</span> <span class="nm">20</span>
+<span class="fn">print</span>(<span class="st">f"Name: <span class="var">{name}</span>, Age: <span class="var">{age}</span>"</span>)
+<span class="fn">print</span>(<span class="st">f"5 x 5 = <span class="var">{5*5}</span>"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Hello World<br>Hello-World<br>Hello | World<br>Name: Alice, Age: 20<br>5 x 5 = 25</span>
+    </div></div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — input() with type conversion</span></div>
+    <div class="code-block">
+<span class="var">name</span> <span class="op">=</span> <span class="fn">input</span>(<span class="st">"Enter your name: "</span>)
+<span class="var">age</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter age: "</span>))
+<span class="var">salary</span> <span class="op">=</span> <span class="fn">float</span>(<span class="fn">input</span>(<span class="st">"Enter salary: "</span>))
+
+<span class="fn">print</span>(<span class="st">f"Hello {<span class="var">name</span>}! You are {<span class="var">age</span>} years old."</span>)
+<span class="fn">print</span>(<span class="st">f"Monthly salary: ₹{<span class="var">salary</span>:.2f}"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content">
+      <span class="prompt">Enter your name: </span><span class="inp">Alice</span><br>
+      <span class="prompt">Enter age: </span><span class="inp">20</span><br>
+      <span class="prompt">Enter salary: </span><span class="inp">50000.5</span>
+    </div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Hello Alice! You are 20 years old.<br>Monthly salary: ₹50000.50</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 06. CONDITIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="conditions">
+  <div class="section-title"><span class="num">06</span> Conditional Statements</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Conditional Statement</div>
+    <p>Conditional statements allow a program to <strong>make decisions</strong> and execute different code blocks based on whether a condition is <strong>True or False</strong>.</p>
+  </div>
+
+  <div class="card">
+    <h3>Types</h3>
+    <ul>
+      <li><code>if</code> — executes block if condition is True</li>
+      <li><code>elif</code> — checks another condition if previous was False</li>
+      <li><code>else</code> — executes if all conditions are False</li>
+      <li><strong>Nested if</strong> — if inside another if</li>
+      <li><strong>Ternary / Inline if</strong> — one-line condition</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — if / elif / else</span></div>
+    <div class="code-block">
+<span class="var">marks</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter marks: "</span>))
+
+<span class="kw">if</span> <span class="var">marks</span> <span class="op">>=</span> <span class="nm">90</span>:
+    <span class="fn">print</span>(<span class="st">"Grade: A+"</span>)
+<span class="kw">elif</span> <span class="var">marks</span> <span class="op">>=</span> <span class="nm">75</span>:
+    <span class="fn">print</span>(<span class="st">"Grade: A"</span>)
+<span class="kw">elif</span> <span class="var">marks</span> <span class="op">>=</span> <span class="nm">60</span>:
+    <span class="fn">print</span>(<span class="st">"Grade: B"</span>)
+<span class="kw">elif</span> <span class="var">marks</span> <span class="op">>=</span> <span class="nm">40</span>:
+    <span class="fn">print</span>(<span class="st">"Grade: C — Pass"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">"Grade: F — Fail"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">Enter marks: </span><span class="inp">82</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content"><span class="out">Grade: A</span></div></div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Ternary (One-line if)</span></div>
+    <div class="code-block">
+<span class="var">age</span> <span class="op">=</span> <span class="nm">18</span>
+<span class="var">result</span> <span class="op">=</span> <span class="st">"Adult"</span> <span class="kw">if</span> <span class="var">age</span> <span class="op">>=</span> <span class="nm">18</span> <span class="kw">else</span> <span class="st">"Minor"</span>
+<span class="fn">print</span>(<span class="var">result</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content"><span class="out">Adult</span></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 07. LOOPS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="loops">
+  <div class="section-title"><span class="num">07</span> Loops</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Loop</div>
+    <p>A loop is a control structure that <strong>repeats a block of code</strong> multiple times until a condition is met or a sequence is exhausted.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="def-box">
+      <div class="def-title">for loop</div>
+      <p>Iterates over a <strong>sequence</strong> (list, tuple, string, range). Runs a fixed number of times.</p>
+    </div>
+    <div class="def-box">
+      <div class="def-title">while loop</div>
+      <p>Repeats as long as a <strong>condition is True</strong>. Number of iterations may not be known.</p>
+    </div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — for loop + range()</span></div>
+    <div class="code-block">
+<span class="cm"># range(start, stop, step)</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">6</span>):
+    <span class="fn">print</span>(<span class="st">f"Count: {<span class="var">i</span>}"</span>)
+
+<span class="fn">print</span>(<span class="st">"---"</span>)
+
+<span class="cm"># Iterate over list</span>
+<span class="var">fruits</span> <span class="op">=</span> [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>]
+<span class="kw">for</span> <span class="var">fruit</span> <span class="kw">in</span> <span class="var">fruits</span>:
+    <span class="fn">print</span>(<span class="st">f"Fruit: {<span class="var">fruit</span>}"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Count: 1<br>Count: 2<br>Count: 3<br>Count: 4<br>Count: 5<br>---<br>Fruit: apple<br>Fruit: banana<br>Fruit: cherry</span>
+    </div></div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — while loop + Multiplication Table</span></div>
+    <div class="code-block">
+<span class="var">n</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter number: "</span>))
+<span class="var">i</span> <span class="op">=</span> <span class="nm">1</span>
+<span class="kw">while</span> <span class="var">i</span> <span class="op"><=</span> <span class="nm">10</span>:
+    <span class="fn">print</span>(<span class="st">f"{<span class="var">n</span>} x {<span class="var">i</span>} = {<span class="var">n</span><span class="op">*</span><span class="var">i</span>}"</span>)
+    <span class="var">i</span> <span class="op">+=</span> <span class="nm">1</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">Enter number: </span><span class="inp">5</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">5 x 1 = 5<br>5 x 2 = 10<br>5 x 3 = 15<br>5 x 4 = 20<br>5 x 5 = 25<br>5 x 6 = 30<br>5 x 7 = 35<br>5 x 8 = 40<br>5 x 9 = 45<br>5 x 10 = 50</span>
+    </div></div>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Nested loops (Pattern)</span></div>
+    <div class="code-block">
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">6</span>):
+    <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="var">i</span><span class="op">+</span><span class="nm">1</span>):
+        <span class="fn">print</span>(<span class="st">"*"</span>, end=<span class="st">" "</span>)
+    <span class="fn">print</span>()
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">* <br>* * <br>* * * <br>* * * * <br>* * * * *</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 08. BREAK / CONTINUE / PASS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="break-continue">
+  <div class="section-title"><span class="num">08</span> Break, Continue &amp; Pass</div>
+
+  <div class="grid-2">
+    <div class="def-box">
+      <div class="def-title">break</div>
+      <p>Immediately <strong>exits the loop</strong> when encountered. The remaining iterations are skipped.</p>
+    </div>
+    <div class="def-box">
+      <div class="def-title">continue</div>
+      <p><strong>Skips the current iteration</strong> and moves to the next one. Loop does not stop.</p>
+    </div>
+  </div>
+  <div class="def-box">
+    <div class="def-title">pass</div>
+    <p>A <strong>null statement</strong> — does nothing. Used as a placeholder when a statement is syntactically required but no code is needed.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — break, continue, pass</span></div>
+    <div class="code-block">
+<span class="cm"># break — stop at 5</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">10</span>):
+    <span class="kw">if</span> <span class="var">i</span> <span class="op">==</span> <span class="nm">5</span>:
+        <span class="kw">break</span>
+    <span class="fn">print</span>(<span class="var">i</span>, end=<span class="st">" "</span>)
+<span class="fn">print</span>(<span class="st">"\n---"</span>)
+
+<span class="cm"># continue — skip even numbers</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">10</span>):
+    <span class="kw">if</span> <span class="var">i</span> <span class="op">%</span> <span class="nm">2</span> <span class="op">==</span> <span class="nm">0</span>:
+        <span class="kw">continue</span>
+    <span class="fn">print</span>(<span class="var">i</span>, end=<span class="st">" "</span>)
+<span class="fn">print</span>(<span class="st">"\n---"</span>)
+
+<span class="cm"># pass — empty block placeholder</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">3</span>):
+    <span class="kw">pass</span>
+<span class="fn">print</span>(<span class="st">"pass loop done"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">1 2 3 4<br>---<br>1 3 5 7 9<br>---<br>pass loop done</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 09. FUNCTIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="functions">
+  <div class="section-title"><span class="num">09</span> Functions</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Function</div>
+    <p>A function is a <strong>reusable block of code</strong> that performs a specific task. Defined using the <code>def</code> keyword. Reduces repetition and improves code organization.</p>
+  </div>
+
+  <div class="card">
+    <h3>Types of Function Arguments</h3>
+    <ul>
+      <li><strong>Positional</strong> — passed in order: <code>add(2, 3)</code></li>
+      <li><strong>Default</strong> — has default value: <code>def greet(name="Guest")</code></li>
+      <li><strong>Keyword</strong> — passed by name: <code>add(b=3, a=2)</code></li>
+      <li><strong>*args</strong> — variable number of positional args (tuple)</li>
+      <li><strong>**kwargs</strong> — variable number of keyword args (dict)</li>
+    </ul>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Functions (all types)</span></div>
+    <div class="code-block">
+<span class="cm"># Basic function</span>
+<span class="kw">def</span> <span class="fn">greet</span>(<span class="var">name</span>):
+    <span class="fn">print</span>(<span class="st">f"Hello, {<span class="var">name</span>}!"</span>)
+
+<span class="cm"># Function with return value</span>
+<span class="kw">def</span> <span class="fn">add</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="kw">return</span> <span class="var">a</span> <span class="op">+</span> <span class="var">b</span>
+
+<span class="cm"># Default argument</span>
+<span class="kw">def</span> <span class="fn">power</span>(<span class="var">base</span>, <span class="var">exp</span><span class="op">=</span><span class="nm">2</span>):
+    <span class="kw">return</span> <span class="var">base</span> <span class="op">**</span> <span class="var">exp</span>
+
+<span class="cm"># *args</span>
+<span class="kw">def</span> <span class="fn">total</span>(<span class="op">*</span><span class="var">nums</span>):
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="var">nums</span>)
+
+<span class="cm"># **kwargs</span>
+<span class="kw">def</span> <span class="fn">info</span>(<span class="op">**</span><span class="var">details</span>):
+    <span class="kw">for</span> <span class="var">k</span>, <span class="var">v</span> <span class="kw">in</span> <span class="var">details</span>.<span class="fn">items</span>():
+        <span class="fn">print</span>(<span class="st">f"{<span class="var">k</span>}: {<span class="var">v</span>}"</span>)
+
+<span class="cm"># Calling functions</span>
+<span class="fn">greet</span>(<span class="st">"Alice"</span>)
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="nm">5</span>, <span class="nm">3</span>))
+<span class="fn">print</span>(<span class="fn">power</span>(<span class="nm">3</span>))
+<span class="fn">print</span>(<span class="fn">power</span>(<span class="nm">2</span>, <span class="nm">8</span>))
+<span class="fn">print</span>(<span class="fn">total</span>(<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>))
+<span class="fn">info</span>(name=<span class="st">"Bob"</span>, age=<span class="nm">25</span>, city=<span class="st">"Delhi"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Hello, Alice!<br>8<br>9<br>256<br>15<br>name: Bob<br>age: 25<br>city: Delhi</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 10. LAMBDA -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="lambda">
+  <div class="section-title"><span class="num">10</span> Lambda Functions</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Lambda</div>
+    <p>A lambda is an <strong>anonymous (nameless) single-line function</strong>. Written as: <code>lambda arguments: expression</code>. Used for short, throwaway functions.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Lambda + map, filter, sorted</span></div>
+    <div class="code-block">
+<span class="cm"># Basic lambda</span>
+<span class="var">square</span> <span class="op">=</span> <span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span><span class="op">**</span><span class="nm">2</span>
+<span class="fn">print</span>(<span class="var">square</span>(<span class="nm">5</span>))           <span class="cm"># 25</span>
+
+<span class="var">add</span> <span class="op">=</span> <span class="kw">lambda</span> <span class="var">a</span>, <span class="var">b</span>: <span class="var">a</span> <span class="op">+</span> <span class="var">b</span>
+<span class="fn">print</span>(<span class="var">add</span>(<span class="nm">3</span>, <span class="nm">4</span>))           <span class="cm"># 7</span>
+
+<span class="cm"># map() — apply to all items</span>
+<span class="var">nums</span> <span class="op">=</span> [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>]
+<span class="var">result</span> <span class="op">=</span> <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span><span class="op">*</span><span class="nm">2</span>, <span class="var">nums</span>))
+<span class="fn">print</span>(<span class="var">result</span>)              <span class="cm"># [2, 4, 6, 8]</span>
+
+<span class="cm"># filter() — keep items where True</span>
+<span class="var">evens</span> <span class="op">=</span> <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span><span class="op">%</span><span class="nm">2</span><span class="op">==</span><span class="nm">0</span>, <span class="var">nums</span>))
+<span class="fn">print</span>(<span class="var">evens</span>)               <span class="cm"># [2, 4]</span>
+
+<span class="cm"># sorted() with lambda key</span>
+<span class="var">people</span> <span class="op">=</span> [(<span class="st">"Alice"</span>, <span class="nm">30</span>), (<span class="st">"Bob"</span>, <span class="nm">25</span>), (<span class="st">"Charlie"</span>, <span class="nm">35</span>)]
+<span class="var">sorted_p</span> <span class="op">=</span> <span class="fn">sorted</span>(<span class="var">people</span>, key<span class="op">=</span><span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span>[<span class="nm">1</span>])
+<span class="fn">print</span>(<span class="var">sorted_p</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">25<br>7<br>[2, 4, 6, 8]<br>[2, 4]<br>[('Bob', 25), ('Alice', 30), ('Charlie', 35)]</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 11. SCOPE -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="scope">
+  <div class="section-title"><span class="num">11</span> Scope (LEGB Rule)</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Scope</div>
+    <p>Scope defines the <strong>region of code where a variable is accessible</strong>. Python uses the <strong>LEGB rule</strong> to resolve variable names.</p>
+  </div>
+
+  <table class="py-table">
+    <tr><th>Letter</th><th>Scope</th><th>Description</th></tr>
+    <tr><td>L</td><td>Local</td><td>Inside the current function</td></tr>
+    <tr><td>E</td><td>Enclosing</td><td>Inside enclosing functions (closures)</td></tr>
+    <tr><td>G</td><td>Global</td><td>Top-level of the script/module</td></tr>
+    <tr><td>B</td><td>Built-in</td><td>Python's built-in names (print, len...)</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Local vs Global + global keyword</span></div>
+    <div class="code-block">
+<span class="var">x</span> <span class="op">=</span> <span class="st">"global"</span>
+
+<span class="kw">def</span> <span class="fn">show</span>():
+    <span class="var">x</span> <span class="op">=</span> <span class="st">"local"</span>
+    <span class="fn">print</span>(<span class="st">"Inside:", </span><span class="var">x</span>)
+
+<span class="fn">show</span>()
+<span class="fn">print</span>(<span class="st">"Outside:", </span><span class="var">x</span>)
+
+<span class="cm"># global keyword</span>
+<span class="var">count</span> <span class="op">=</span> <span class="nm">0</span>
+<span class="kw">def</span> <span class="fn">increment</span>():
+    <span class="kw">global</span> <span class="var">count</span>
+    <span class="var">count</span> <span class="op">+=</span> <span class="nm">1</span>
+
+<span class="fn">increment</span>()
+<span class="fn">increment</span>()
+<span class="fn">print</span>(<span class="st">"count:"</span>, <span class="var">count</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Inside: local<br>Outside: global<br>count: 2</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 12. LISTS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="lists">
+  <div class="section-title"><span class="num">12</span> Lists</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — List</div>
+    <p>A list is an <strong>ordered, mutable (changeable), indexed collection</strong> that allows duplicate values. Defined using square brackets <code>[]</code>.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — List Operations</span></div>
+    <div class="code-block">
+<span class="var">fruits</span> <span class="op">=</span> [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>]
+
+<span class="cm"># Access</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[<span class="nm">0</span>])           <span class="cm"># apple</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[<span class="op">-</span><span class="nm">1</span>])          <span class="cm"># cherry (last)</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[<span class="nm">0</span>:<span class="nm">2</span>])         <span class="cm"># ['apple', 'banana']</span>
+
+<span class="cm"># Modify</span>
+<span class="var">fruits</span>[<span class="nm">1</span>] <span class="op">=</span> <span class="st">"mango"</span>
+<span class="fn">print</span>(<span class="var">fruits</span>)
+
+<span class="cm"># Methods</span>
+<span class="var">fruits</span>.<span class="fn">append</span>(<span class="st">"grape"</span>)     <span class="cm"># add at end</span>
+<span class="var">fruits</span>.<span class="fn">insert</span>(<span class="nm">1</span>, <span class="st">"kiwi"</span>)   <span class="cm"># insert at index 1</span>
+<span class="var">fruits</span>.<span class="fn">remove</span>(<span class="st">"apple"</span>)    <span class="cm"># remove by value</span>
+<span class="var">fruits</span>.<span class="fn">pop</span>()               <span class="cm"># remove last</span>
+<span class="fn">print</span>(<span class="var">fruits</span>)
+<span class="fn">print</span>(<span class="st">"Length:"</span>, <span class="fn">len</span>(<span class="var">fruits</span>))
+<span class="fn">print</span>(<span class="st">"Sorted:"</span>, <span class="fn">sorted</span>(<span class="var">fruits</span>))
+
+<span class="cm"># List of numbers</span>
+<span class="var">nums</span> <span class="op">=</span> [<span class="nm">5</span>, <span class="nm">2</span>, <span class="nm">8</span>, <span class="nm">1</span>, <span class="nm">9</span>]
+<span class="fn">print</span>(<span class="st">"Min:"</span>, <span class="fn">min</span>(<span class="var">nums</span>), <span class="st">"Max:"</span>, <span class="fn">max</span>(<span class="var">nums</span>), <span class="st">"Sum:"</span>, <span class="fn">sum</span>(<span class="var">nums</span>))
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">apple<br>cherry<br>['apple', 'banana']<br>['apple', 'mango', 'cherry']<br>['kiwi', 'mango', 'cherry']<br>Length: 3<br>Sorted: ['cherry', 'kiwi', 'mango']<br>Min: 1 Max: 9 Sum: 25</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 13. TUPLES -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="tuples">
+  <div class="section-title"><span class="num">13</span> Tuples</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Tuple</div>
+    <p>A tuple is an <strong>ordered, immutable (unchangeable), indexed collection</strong> that allows duplicate values. Defined using parentheses <code>()</code>. Faster than lists.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Tuple Operations</span></div>
+    <div class="code-block">
+<span class="var">coords</span> <span class="op">=</span> (<span class="nm">10</span>, <span class="nm">20</span>, <span class="nm">30</span>)
+
+<span class="fn">print</span>(<span class="var">coords</span>[<span class="nm">0</span>])            <span class="cm"># 10</span>
+<span class="fn">print</span>(<span class="var">coords</span>[<span class="nm">1</span>:<span class="nm">3</span>])          <span class="cm"># (20, 30)</span>
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="var">coords</span>))          <span class="cm"># 3</span>
+<span class="fn">print</span>(<span class="nm">20</span> <span class="kw">in</span> <span class="var">coords</span>)         <span class="cm"># True</span>
+
+<span class="cm"># count and index</span>
+<span class="var">t</span> <span class="op">=</span> (<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">2</span>)
+<span class="fn">print</span>(<span class="var">t</span>.<span class="fn">count</span>(<span class="nm">2</span>))           <span class="cm"># 3</span>
+<span class="fn">print</span>(<span class="var">t</span>.<span class="fn">index</span>(<span class="nm">3</span>))           <span class="cm"># 3</span>
+
+<span class="cm"># Tuple unpacking</span>
+<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span> <span class="op">=</span> <span class="var">coords</span>
+<span class="fn">print</span>(<span class="var">a</span>, <span class="var">b</span>, <span class="var">c</span>)              <span class="cm"># 10 20 30</span>
+
+<span class="cm"># Single element tuple needs comma</span>
+<span class="var">single</span> <span class="op">=</span> (<span class="nm">5</span>,)
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">single</span>))         <span class="cm"># &lt;class 'tuple'&gt;</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">10<br>(20, 30)<br>3<br>True<br>3<br>3<br>10 20 30<br>&lt;class 'tuple'&gt;</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 14. SETS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="sets">
+  <div class="section-title"><span class="num">14</span> Sets</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Set</div>
+    <p>A set is an <strong>unordered, mutable collection of unique values</strong>. Defined using curly braces <code>{}</code>. Automatically removes duplicates. Supports mathematical set operations.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Set Operations</span></div>
+    <div class="code-block">
+<span class="var">s</span> <span class="op">=</span> {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">2</span>, <span class="nm">1</span>}
+<span class="fn">print</span>(<span class="var">s</span>)                    <span class="cm"># {1, 2, 3} — duplicates removed</span>
+
+<span class="var">s</span>.<span class="fn">add</span>(<span class="nm">4</span>)
+<span class="var">s</span>.<span class="fn">discard</span>(<span class="nm">2</span>)
+<span class="fn">print</span>(<span class="var">s</span>)
+
+<span class="cm"># Set operations</span>
+<span class="var">a</span> <span class="op">=</span> {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>}
+<span class="var">b</span> <span class="op">=</span> {<span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>, <span class="nm">6</span>}
+
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">|</span> <span class="var">b</span>)   <span class="cm"># Union</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">&amp;</span> <span class="var">b</span>)   <span class="cm"># Intersection</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">-</span> <span class="var">b</span>)   <span class="cm"># Difference</span>
+<span class="fn">print</span>(<span class="var">a</span> <span class="op">^</span> <span class="var">b</span>)   <span class="cm"># Symmetric difference</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">{1, 2, 3}<br>{1, 3, 4}<br>{1, 2, 3, 4, 5, 6}<br>{3, 4}<br>{1, 2}<br>{1, 2, 5, 6}</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 15. DICTIONARIES -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="dicts">
+  <div class="section-title"><span class="num">15</span> Dictionaries</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Dictionary</div>
+    <p>A dictionary is an <strong>ordered (Python 3.7+), mutable collection of key-value pairs</strong>. Keys must be unique and immutable. Defined using curly braces with colons: <code>{"key": value}</code>.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Dictionary Operations</span></div>
+    <div class="code-block">
+<span class="var">student</span> <span class="op">=</span> {
+    <span class="st">"name"</span>: <span class="st">"Alice"</span>,
+    <span class="st">"age"</span>: <span class="nm">20</span>,
+    <span class="st">"marks"</span>: <span class="nm">95</span>
+}
+
+<span class="cm"># Access</span>
+<span class="fn">print</span>(<span class="var">student</span>[<span class="st">"name"</span>])          <span class="cm"># Alice</span>
+<span class="fn">print</span>(<span class="var">student</span>.<span class="fn">get</span>(<span class="st">"age"</span>))       <span class="cm"># 20</span>
+<span class="fn">print</span>(<span class="var">student</span>.<span class="fn">get</span>(<span class="st">"city"</span>, <span class="st">"N/A"</span>)) <span class="cm"># N/A (default)</span>
+
+<span class="cm"># Add / update</span>
+<span class="var">student</span>[<span class="st">"city"</span>] <span class="op">=</span> <span class="st">"Mumbai"</span>
+<span class="var">student</span>[<span class="st">"age"</span>] <span class="op">=</span> <span class="nm">21</span>
+
+<span class="cm"># Keys, values, items</span>
+<span class="fn">print</span>(<span class="var">student</span>.<span class="fn">keys</span>())
+<span class="fn">print</span>(<span class="var">student</span>.<span class="fn">values</span>())
+
+<span class="cm"># Loop through</span>
+<span class="kw">for</span> <span class="var">key</span>, <span class="var">val</span> <span class="kw">in</span> <span class="var">student</span>.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="st">f"{<span class="var">key</span>}: {<span class="var">val</span>}"</span>)
+
+<span class="cm"># Delete</span>
+<span class="kw">del</span> <span class="var">student</span>[<span class="st">"city"</span>]
+<span class="fn">print</span>(<span class="fn">len</span>(<span class="var">student</span>))             <span class="cm"># 3</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Alice<br>20<br>N/A<br>dict_keys(['name', 'age', 'marks', 'city'])<br>dict_values(['Alice', 21, 95, 'Mumbai'])<br>name: Alice<br>age: 21<br>marks: 95<br>city: Mumbai<br>3</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 16. STRINGS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="strings">
+  <div class="section-title"><span class="num">16</span> Strings</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — String</div>
+    <p>A string is a <strong>sequence of characters</strong> enclosed in single, double, or triple quotes. Strings are <strong>immutable</strong> in Python — they cannot be changed after creation.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — String Methods</span></div>
+    <div class="code-block">
+<span class="var">s</span> <span class="op">=</span> <span class="st">"  Hello, Python World!  "</span>
+
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">strip</span>())            <span class="cm"># remove whitespace</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">lower</span>())            <span class="cm"># lowercase</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">upper</span>())            <span class="cm"># uppercase</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">title</span>())            <span class="cm"># title case</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">replace</span>(<span class="st">"Python"</span>, <span class="st">"World"</span>))
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">find</span>(<span class="st">"Python"</span>))    <span class="cm"># index of substring</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">count</span>(<span class="st">"l"</span>))         <span class="cm"># count occurrences</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">startswith</span>(<span class="st">"  He"</span>)) <span class="cm"># True/False</span>
+<span class="fn">print</span>(<span class="var">s</span>.<span class="fn">split</span>(<span class="st">","</span>))          <span class="cm"># split into list</span>
+
+<span class="cm"># Slicing</span>
+<span class="var">word</span> <span class="op">=</span> <span class="st">"Python"</span>
+<span class="fn">print</span>(<span class="var">word</span>[<span class="nm">0</span>:<span class="nm">3</span>])             <span class="cm"># Pyt</span>
+<span class="fn">print</span>(<span class="var">word</span>[::<span class="op">-</span><span class="nm">1</span>])            <span class="cm"># nohtyP (reverse)</span>
+<span class="fn">print</span>(<span class="var">word</span>[<span class="op">-</span><span class="nm">1</span>])              <span class="cm"># n (last char)</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Hello, Python World!<br>  hello, python world!  <br>  HELLO, PYTHON WORLD!  <br>  Hello, Python World!  <br>  Hello, World World!  <br>9<br>3<br>True<br>['  Hello', ' Python World!  ']<br>Pyt<br>nohtyP<br>n</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 17. OOP -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="oops">
+  <div class="section-title"><span class="num">17</span> Object-Oriented Programming (OOP)</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — OOP</div>
+    <p>OOP is a programming paradigm that organizes code using <strong>classes and objects</strong>. It is based on 4 pillars: <strong>Encapsulation, Inheritance, Polymorphism, Abstraction</strong>.</p>
+  </div>
+
+  <table class="py-table">
+    <tr><th>Term</th><th>Definition</th></tr>
+    <tr><td>Class</td><td>Blueprint/template for creating objects</td></tr>
+    <tr><td>Object</td><td>Instance of a class — has state (attributes) and behavior (methods)</td></tr>
+    <tr><td>__init__()</td><td>Constructor — automatically called when object is created</td></tr>
+    <tr><td>self</td><td>Reference to the current instance of the class</td></tr>
+    <tr><td>Inheritance</td><td>Child class inherits properties from parent class</td></tr>
+    <tr><td>Encapsulation</td><td>Bundling data + methods; restricting direct access</td></tr>
+    <tr><td>Polymorphism</td><td>Same method name behaves differently in different classes</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Class, Object, Inheritance</span></div>
+    <div class="code-block">
+<span class="cm"># Base class</span>
+<span class="kw">class</span> <span class="cl">Animal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">name</span>, <span class="var">sound</span>):
+        <span class="var">self</span>.<span class="var">name</span> <span class="op">=</span> <span class="var">name</span>
+        <span class="var">self</span>.<span class="var">sound</span> <span class="op">=</span> <span class="var">sound</span>
+
+    <span class="kw">def</span> <span class="fn">speak</span>(<span class="var">self</span>):
+        <span class="fn">print</span>(<span class="st">f"{<span class="var">self</span>.<span class="var">name</span>} says {<span class="var">self</span>.<span class="var">sound</span>}"</span>)
+
+<span class="cm"># Child class (Inheritance)</span>
+<span class="kw">class</span> <span class="cl">Dog</span>(<span class="cl">Animal</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">name</span>):
+        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="var">name</span>, <span class="st">"Woof"</span>)
+
+    <span class="kw">def</span> <span class="fn">fetch</span>(<span class="var">self</span>):
+        <span class="fn">print</span>(<span class="st">f"{<span class="var">self</span>.<span class="var">name</span>} fetches the ball!"</span>)
+
+<span class="kw">class</span> <span class="cl">Cat</span>(<span class="cl">Animal</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">name</span>):
+        <span class="fn">super</span>().<span class="fn">__init__</span>(<span class="var">name</span>, <span class="st">"Meow"</span>)
+
+<span class="cm"># Create objects</span>
+<span class="var">d</span> <span class="op">=</span> <span class="cl">Dog</span>(<span class="st">"Rex"</span>)
+<span class="var">c</span> <span class="op">=</span> <span class="cl">Cat</span>(<span class="st">"Whiskers"</span>)
+
+<span class="var">d</span>.<span class="fn">speak</span>()
+<span class="var">c</span>.<span class="fn">speak</span>()
+<span class="var">d</span>.<span class="fn">fetch</span>()
+
+<span class="cm"># Polymorphism</span>
+<span class="kw">for</span> <span class="var">animal</span> <span class="kw">in</span> [<span class="var">d</span>, <span class="var">c</span>]:
+    <span class="var">animal</span>.<span class="fn">speak</span>()     <span class="cm"># same method, different result</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Rex says Woof<br>Whiskers says Meow<br>Rex fetches the ball!<br>Rex says Woof<br>Whiskers says Meow</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 18. MODULES -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="modules">
+  <div class="section-title"><span class="num">18</span> Modules &amp; Packages</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Module</div>
+    <p>A module is a <strong>Python file (.py) containing functions, classes, and variables</strong> that can be imported and reused. A package is a <strong>directory of modules</strong> with an <code>__init__.py</code> file.</p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — Importing Modules</span></div>
+    <div class="code-block">
+<span class="kw">import</span> <span class="cl">math</span>
+<span class="kw">import</span> <span class="cl">random</span>
+<span class="kw">import</span> <span class="cl">datetime</span>
+<span class="kw">from</span> <span class="cl">math</span> <span class="kw">import</span> <span class="fn">sqrt</span>, <span class="fn">pi</span>
+
+<span class="cm"># math module</span>
+<span class="fn">print</span>(<span class="cl">math</span>.<span class="fn">sqrt</span>(<span class="nm">16</span>))         <span class="cm"># 4.0</span>
+<span class="fn">print</span>(<span class="cl">math</span>.<span class="fn">floor</span>(<span class="nm">3.7</span>))       <span class="cm"># 3</span>
+<span class="fn">print</span>(<span class="cl">math</span>.<span class="fn">ceil</span>(<span class="nm">3.2</span>))        <span class="cm"># 4</span>
+<span class="fn">print</span>(<span class="cl">math</span>.<span class="fn">pow</span>(<span class="nm">2</span>, <span class="nm">10</span>))       <span class="cm"># 1024.0</span>
+<span class="fn">print</span>(<span class="cl">math</span>.<span class="var">pi</span>)               <span class="cm"># 3.14159...</span>
+
+<span class="cm"># random module</span>
+<span class="fn">print</span>(<span class="cl">random</span>.<span class="fn">randint</span>(<span class="nm">1</span>, <span class="nm">10</span>)) <span class="cm"># random 1-10</span>
+<span class="fn">print</span>(<span class="cl">random</span>.<span class="fn">choice</span>([<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>]))
+
+<span class="cm"># datetime module</span>
+<span class="var">now</span> <span class="op">=</span> <span class="cl">datetime</span>.<span class="cl">datetime</span>.<span class="fn">now</span>()
+<span class="fn">print</span>(<span class="var">now</span>.<span class="fn">strftime</span>(<span class="st">"%d-%m-%Y %H:%M"</span>))
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">4.0<br>3<br>4<br>1024.0<br>3.141592653589793<br>7 (random)<br>b (random)<br>05-03-2026 14:30 (current time)</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 19. EXCEPTIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="exceptions">
+  <div class="section-title"><span class="num">19</span> Exception Handling</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — Exception</div>
+    <p>An exception is an <strong>error that occurs during program execution</strong> and disrupts normal flow. Python uses <code>try...except...else...finally</code> blocks to handle exceptions gracefully.</p>
+  </div>
+
+  <table class="py-table">
+    <tr><th>Exception</th><th>Cause</th></tr>
+    <tr><td>ZeroDivisionError</td><td>Dividing by zero</td></tr>
+    <tr><td>ValueError</td><td>Wrong value type (e.g., int("abc"))</td></tr>
+    <tr><td>TypeError</td><td>Wrong data type in operation</td></tr>
+    <tr><td>IndexError</td><td>List index out of range</td></tr>
+    <tr><td>KeyError</td><td>Dictionary key not found</td></tr>
+    <tr><td>FileNotFoundError</td><td>File does not exist</td></tr>
+    <tr><td>NameError</td><td>Variable not defined</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — try / except / else / finally</span></div>
+    <div class="code-block">
+<span class="kw">try</span>:
+    <span class="var">a</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter number: "</span>))
+    <span class="var">b</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Enter divisor: "</span>))
+    <span class="var">result</span> <span class="op">=</span> <span class="var">a</span> <span class="op">/</span> <span class="var">b</span>
+<span class="kw">except</span> <span class="cl">ZeroDivisionError</span>:
+    <span class="fn">print</span>(<span class="st">"Error: Cannot divide by zero!"</span>)
+<span class="kw">except</span> <span class="cl">ValueError</span>:
+    <span class="fn">print</span>(<span class="st">"Error: Please enter a valid number!"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">f"Result: {<span class="var">result</span>:.2f}"</span>)       <span class="cm"># runs if no error</span>
+<span class="kw">finally</span>:
+    <span class="fn">print</span>(<span class="st">"Program finished."</span>)            <span class="cm"># always runs</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT (Case 1)</div><div class="io-content">
+      <span class="prompt">Enter number: </span><span class="inp">10</span><br>
+      <span class="prompt">Enter divisor: </span><span class="inp">0</span>
+    </div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Error: Cannot divide by zero!<br>Program finished.</span>
+    </div></div>
+  </div>
+  <div class="io-grid" style="margin-top:10px;">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT (Case 2)</div><div class="io-content">
+      <span class="prompt">Enter number: </span><span class="inp">20</span><br>
+      <span class="prompt">Enter divisor: </span><span class="inp">4</span>
+    </div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Result: 5.00<br>Program finished.</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 20. FILE I/O -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="fileio">
+  <div class="section-title"><span class="num">20</span> File Handling (I/O)</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — File Handling</div>
+    <p>File handling allows programs to <strong>read from and write to files</strong> stored on disk. Python uses the built-in <code>open()</code> function. Always use <code>with</code> statement to auto-close files.</p>
+  </div>
+
+  <table class="py-table">
+    <tr><th>Mode</th><th>Meaning</th></tr>
+    <tr><td>"r"</td><td>Read (default) — error if file not found</td></tr>
+    <tr><td>"w"</td><td>Write — creates file, overwrites if exists</td></tr>
+    <tr><td>"a"</td><td>Append — adds to end, creates if not exists</td></tr>
+    <tr><td>"x"</td><td>Create — error if file already exists</td></tr>
+    <tr><td>"rb"/"wb"</td><td>Read/Write binary</td></tr>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — File Read &amp; Write</span></div>
+    <div class="code-block">
+<span class="cm"># Write to file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"data.txt"</span>, <span class="st">"w"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="var">f</span>.<span class="fn">write</span>(<span class="st">"Hello, File!\n"</span>)
+    <span class="var">f</span>.<span class="fn">write</span>(<span class="st">"Python File I/O\n"</span>)
+
+<span class="cm"># Read entire file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"data.txt"</span>, <span class="st">"r"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="var">content</span> <span class="op">=</span> <span class="var">f</span>.<span class="fn">read</span>()
+    <span class="fn">print</span>(<span class="var">content</span>)
+
+<span class="cm"># Read line by line</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"data.txt"</span>, <span class="st">"r"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="kw">for</span> <span class="var">line</span> <span class="kw">in</span> <span class="var">f</span>:
+        <span class="fn">print</span>(<span class="var">line</span>.<span class="fn">strip</span>())
+
+<span class="cm"># Append to file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="st">"data.txt"</span>, <span class="st">"a"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="var">f</span>.<span class="fn">write</span>(<span class="st">"Appended line!\n"</span>)
+
+<span class="fn">print</span>(<span class="st">"Done!"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">Hello, File!<br>Python File I/O<br><br>Hello, File!<br>Python File I/O<br>Done!</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 21. COMPREHENSIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="comprehensions">
+  <div class="section-title"><span class="num">21</span> Comprehensions</div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION — List Comprehension</div>
+    <p>A concise one-line syntax to <strong>create new lists</strong> from existing iterables. Syntax: <code>[expression for item in iterable if condition]</code></p>
+  </div>
+
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — List, Dict, Set Comprehensions</span></div>
+    <div class="code-block">
+<span class="cm"># List comprehension</span>
+<span class="var">squares</span> <span class="op">=</span> [<span class="var">x</span><span class="op">**</span><span class="nm">2</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">6</span>)]
+<span class="fn">print</span>(<span class="var">squares</span>)               <span class="cm"># [1, 4, 9, 16, 25]</span>
+
+<span class="cm"># With condition</span>
+<span class="var">evens</span> <span class="op">=</span> [<span class="var">x</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">11</span>) <span class="kw">if</span> <span class="var">x</span><span class="op">%</span><span class="nm">2</span><span class="op">==</span><span class="nm">0</span>]
+<span class="fn">print</span>(<span class="var">evens</span>)                  <span class="cm"># [2, 4, 6, 8, 10]</span>
+
+<span class="cm"># Dict comprehension</span>
+<span class="var">sq_dict</span> <span class="op">=</span> {<span class="var">x</span>: <span class="var">x</span><span class="op">**</span><span class="nm">2</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">5</span>)}
+<span class="fn">print</span>(<span class="var">sq_dict</span>)               <span class="cm"># {1:1, 2:4, 3:9, 4:16}</span>
+
+<span class="cm"># Set comprehension</span>
+<span class="var">unique</span> <span class="op">=</span> {<span class="var">x</span><span class="op">%</span><span class="nm">3</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">10</span>)}
+<span class="fn">print</span>(<span class="var">unique</span>)                <span class="cm"># {0, 1, 2}</span>
+
+<span class="cm"># Generator expression</span>
+<span class="var">gen</span> <span class="op">=</span> (<span class="var">x</span><span class="op">**</span><span class="nm">2</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">5</span>))
+<span class="fn">print</span>(<span class="fn">list</span>(<span class="var">gen</span>))             <span class="cm"># [0, 1, 4, 9, 16]</span>
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">[1, 4, 9, 16, 25]<br>[2, 4, 6, 8, 10]<br>{1: 1, 2: 4, 3: 9, 4: 16}<br>{0, 1, 2}<br>[0, 1, 4, 9, 16]</span>
+    </div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 22. BUILT-IN FUNCTIONS -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="builtin">
+  <div class="section-title"><span class="num">22</span> Important Built-in Functions</div>
+
+  <div class="card">
+    <table class="py-table">
+      <tr><th>Function</th><th>Purpose</th><th>Example</th></tr>
+      <tr><td>print()</td><td>Output to console</td><td>print("Hello")</td></tr>
+      <tr><td>input()</td><td>Read from user</td><td>input("Name: ")</td></tr>
+      <tr><td>len()</td><td>Length of sequence</td><td>len([1,2,3]) → 3</td></tr>
+      <tr><td>type()</td><td>Data type of value</td><td>type(5) → int</td></tr>
+      <tr><td>int() float() str()</td><td>Type conversion</td><td>int("5") → 5</td></tr>
+      <tr><td>range()</td><td>Generate sequence</td><td>range(1,6) → 1..5</td></tr>
+      <tr><td>abs()</td><td>Absolute value</td><td>abs(-5) → 5</td></tr>
+      <tr><td>round()</td><td>Round number</td><td>round(3.567,2) → 3.57</td></tr>
+      <tr><td>min() max()</td><td>Smallest / largest</td><td>min([3,1,5]) → 1</td></tr>
+      <tr><td>sum()</td><td>Sum of iterable</td><td>sum([1,2,3]) → 6</td></tr>
+      <tr><td>sorted()</td><td>Return sorted list</td><td>sorted([3,1,2]) → [1,2,3]</td></tr>
+      <tr><td>reversed()</td><td>Reverse iterator</td><td>list(reversed([1,2,3]))</td></tr>
+      <tr><td>enumerate()</td><td>Index + value pairs</td><td>for i,v in enumerate(lst)</td></tr>
+      <tr><td>zip()</td><td>Merge iterables</td><td>zip([1,2],[3,4]) → (1,3)(2,4)</td></tr>
+      <tr><td>map()</td><td>Apply func to all</td><td>map(str, [1,2,3])</td></tr>
+      <tr><td>filter()</td><td>Filter by condition</td><td>filter(lambda x:x>2, lst)</td></tr>
+      <tr><td>isinstance()</td><td>Check type</td><td>isinstance(5, int) → True</td></tr>
+      <tr><td>id()</td><td>Memory address</td><td>id(x)</td></tr>
+      <tr><td>dir()</td><td>List attributes/methods</td><td>dir(str)</td></tr>
+      <tr><td>help()</td><td>Show documentation</td><td>help(print)</td></tr>
     </table>
-</section>
+  </div>
 
+  <div class="code-wrap">
+    <div class="code-header"><div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div><span class="lang">Python — enumerate, zip, map</span></div>
+    <div class="code-block">
+<span class="var">fruits</span> <span class="op">=</span> [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>]
+<span class="var">prices</span> <span class="op">=</span> [<span class="nm">50</span>, <span class="nm">30</span>, <span class="nm">80</span>]
 
+<span class="cm"># enumerate</span>
+<span class="kw">for</span> <span class="var">i</span>, <span class="var">fruit</span> <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">fruits</span>, <span class="nm">1</span>):
+    <span class="fn">print</span>(<span class="st">f"{<span class="var">i</span>}. {<span class="var">fruit</span>}"</span>)
 
-<hr>
-<section id="contact">
-<form>
-<MARK><h1>CONTACT ME</h1></MARK>
-<p> CHECK MY:<a href="https://www.linkedin.com/in/venkata-naga-saiteja-kukatla-927a3a2a7/" target="_blank">LINKEDIN</a></p>
-<p>SEND MESSAGE:<a href="kvnsaiteja2002@gmail.com" target="_blank">Email</a></p>
-<p>fell free to get in touch with me using the form</p>
-<label for="name">Name:</label>
-<input type="text" placeholder="Enter your name"><br>
-<label for="email">Email:</label>
-<input type="email" placeholder="Enter your email"><br>
-<b>choose your gender</b>
-<input type="radio" name="gender" value="male">
-<label for="male">male</label>
-<input type="radio" name="gender" value="female">
-<label for="female">female</label>
-<br>
-<b>select your intereset</b>
-<input type="checkbox" id="coding" value="coding">
-<label for="coding">coding</label>
-<input type="checkbox" id="reading" value="reading">
-<label for="reading">reading</label>
-<input type="checkbox" id="traveling" value="traveling">
-<label for="traveling">traveling</label><br>
-<br>
-<label for="bio">bio(upto 200 characters):</label>
-<input type="text">
-<br>
+<span class="cm"># zip</span>
+<span class="kw">for</span> <span class="var">fruit</span>, <span class="var">price</span> <span class="kw">in</span> <span class="fn">zip</span>(<span class="var">fruits</span>, <span class="var">prices</span>):
+    <span class="fn">print</span>(<span class="st">f"{<span class="var">fruit</span>}: ₹{<span class="var">price</span>}"</span>)
+    </div>
+  </div>
+  <div class="io-grid">
+    <div class="io-box input-box"><div class="io-label">▶ INPUT</div><div class="io-content"><span class="prompt">(no input)</span></div></div>
+    <div class="io-box output-box"><div class="io-label">◀ OUTPUT</div><div class="io-content">
+      <span class="out">1. apple<br>2. banana<br>3. cherry<br>apple: ₹50<br>banana: ₹30<br>cherry: ₹80</span>
+    </div></div>
+  </div>
+</div>
 
+<!-- ═══════════════════════════════════════════ -->
+<!-- 23. CHEAT SHEET -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="cheatsheet">
+  <div class="section-title"><span class="num">23</span> Python Quick Cheat Sheet</div>
+  <div class="card">
+    <div style="display:flex;flex-wrap:wrap;gap:5px;">
+      <span class="pill">print()</span><span class="pill">input()</span><span class="pill">int() float() str()</span>
+      <span class="pill">type()</span><span class="pill">len()</span><span class="pill">range()</span>
+      <span class="pill">if elif else</span><span class="pill">for in</span><span class="pill">while</span>
+      <span class="pill">break</span><span class="pill">continue</span><span class="pill">pass</span>
+      <span class="pill">def</span><span class="pill">return</span><span class="pill">lambda</span>
+      <span class="pill">global</span><span class="pill">nonlocal</span>
+      <span class="pill">class</span><span class="pill">self</span><span class="pill">__init__</span><span class="pill">super()</span>
+      <span class="pill">import</span><span class="pill">from ... import</span><span class="pill">as</span>
+      <span class="pill">try except else finally</span>
+      <span class="pill">raise</span><span class="pill">assert</span>
+      <span class="pill">open() read() write()</span>
+      <span class="pill">with ... as</span>
+      <span class="pill">list [] tuple () set {} dict {}</span>
+      <span class="pill">append() insert() remove() pop()</span>
+      <span class="pill">sort() sorted() reverse()</span>
+      <span class="pill">keys() values() items()</span>
+      <span class="pill">split() join() strip() replace()</span>
+      <span class="pill">map() filter() zip() enumerate()</span>
+      <span class="pill">abs() round() min() max() sum()</span>
+      <span class="pill">isinstance() id() dir() help()</span>
+      <span class="pill">math random datetime os sys</span>
+      <span class="pill">True False None</span>
+      <span class="pill">and or not in is</span>
+      <span class="pill">+ - * / // % **</span>
+      <span class="pill">== != > < >= <=</span>
+      <span class="pill">= += -= *= /=</span>
+      <span class="pill">f-string format()</span>
+      <span class="pill">[ : ] slicing</span>
+      <span class="pill">List Comprehension</span>
+      <span class="pill">Dict Comprehension</span>
+    </div>
+  </div>
+</div>
 
-<button type="submit">Submit</button>
+<div class="divider"></div>
+<div style="text-align:center;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding-bottom:20px;">
+  Python Full Notes &nbsp;•&nbsp; 23 Topics &nbsp;•&nbsp; Theory + Definitions + Code + I/O
+</div>
 
-</form>
-</section>
-    
+</div><!-- container -->
+</div><!-- main -->
+
+<script>
+// Sidebar active highlight on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-item');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
+</script>
 </body>
 </html>

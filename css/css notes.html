@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Full Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0f;
+            --card: #13131a;
+            --border: #2a2a3a;
+            --accent1: #7c3aed;
+            --accent2: #06b6d4;
+            --accent3: #f59e0b;
+            --accent4: #10b981;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --code-bg: #1e1e2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 60% at 10% 10%, rgba(124,58,237,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 80%, rgba(6,182,212,0.10) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 40px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--card);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+            border-radius: 20px 20px 0 0;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(124,58,237,0.2);
+            border: 1px solid rgba(124,58,237,0.4);
+            color: #a78bfa;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 30%, #a78bfa 70%, var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+        }
+        header p {
+            color: var(--muted);
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 36px;
+        }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title .num {
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            color: #fff;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .card:hover {
+            border-color: rgba(124,58,237,0.4);
+            transform: translateY(-2px);
+        }
+        .card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            color: var(--accent2);
+            margin-bottom: 8px;
+        }
+        .card p, .card li {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        .card ul { padding-left: 20px; }
+        .card li { margin-bottom: 4px; }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        /* Code block */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent1);
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin: 14px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            line-height: 1.8;
+        }
+        .code-block .kw  { color: #c792ea; }
+        .code-block .sel { color: #82aaff; }
+        .code-block .prop{ color: #7fc8a9; }
+        .code-block .val { color: #f78c6c; }
+        .code-block .cm  { color: #546e7a; font-style: italic; }
+        .code-block .str { color: #c3e88d; }
+        .code-block .tag { color: #ff757f; }
+        .code-block .attr{ color: #ffcb6b; }
+
+        /* Inline code */
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(124,58,237,0.18);
+            color: #c4b5fd;
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 0.88em;
+        }
+
+        /* Selector demo */
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .sel-card {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .sel-card .sel-name {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: var(--accent3);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .sel-card .sel-example {
+            font-size: 0.8rem;
+            color: var(--accent2);
+            font-family: 'Fira Code', monospace;
+        }
+        .sel-card p {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        /* Priority bar */
+        .priority-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--code-bg);
+            border-radius: 10px;
+            padding: 12px 18px;
+            border: 1px solid var(--border);
+        }
+        .priority-item .rank {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            width: 24px;
+            text-align: center;
+            color: var(--accent3);
+        }
+        .priority-item .bar {
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            transition: width 0.4s;
+        }
+        .priority-item .label {
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        /* Color box demo */
+        .color-demo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .color-swatch {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* Box model visual */
+        .box-model {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .bm-margin   { background: rgba(245,158,11,0.15); border: 2px dashed #f59e0b; border-radius: 12px; padding: 20px; color: #f59e0b; font-size:0.75rem; font-family:'Fira Code',monospace; position:relative; }
+        .bm-border   { background: rgba(6,182,212,0.12);  border: 2px dashed #06b6d4; border-radius: 8px;  padding: 16px; color: #06b6d4;  font-size:0.75rem; font-family:'Fira Code',monospace; }
+        .bm-padding  { background: rgba(16,185,129,0.12); border: 2px dashed #10b981; border-radius: 5px;  padding: 14px; color: #10b981;  font-size:0.75rem; font-family:'Fira Code',monospace; }
+        .bm-content  { background: rgba(124,58,237,0.2);  border: 2px solid #7c3aed;  border-radius: 4px;  padding: 10px 22px; color: #a78bfa; font-size:0.75rem; font-family:'Fira Code',monospace; }
+        .bm-label { position: absolute; top: 4px; left: 8px; font-size:0.7rem; opacity:0.7; }
+
+        /* Property table */
+        .prop-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.88rem; }
+        .prop-table th { background: rgba(124,58,237,0.2); color: #a78bfa; padding: 10px 14px; text-align: left; font-family:'Fira Code',monospace; border-bottom: 1px solid var(--border); }
+        .prop-table td { padding: 9px 14px; border-bottom: 1px solid rgba(42,42,58,0.6); color: var(--muted); }
+        .prop-table tr:hover td { background: rgba(124,58,237,0.06); color: var(--text); }
+        .prop-table td:first-child { font-family: 'Fira Code', monospace; color: #7fc8a9; }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 40px 0;
+        }
+
+        /* Tag pill */
+        .tag-pill {
+            display: inline-block;
+            background: rgba(6,182,212,0.12);
+            border: 1px solid rgba(6,182,212,0.3);
+            color: var(--accent2);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin: 3px;
+        }
+
+        /* Specificity chart */
+        .spec-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(42,42,58,0.5);
+            font-size: 0.88rem;
+        }
+        .spec-row:last-child { border-bottom: none; }
+        .spec-row .spec-type { width: 160px; font-family:'Fira Code',monospace; color: var(--accent2); }
+        .spec-row .spec-dots { display:flex; gap:4px; }
+        .spec-dot { width:12px; height:12px; border-radius:50%; background: var(--border); }
+        .spec-dot.active { background: var(--accent1); box-shadow: 0 0 6px var(--accent1); }
+        .spec-row .spec-val { color: var(--muted); font-size:0.8rem; margin-left:8px; }
+
+        /* Responsive note */
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .selector-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <div class="badge">&#x2728; COMPLETE REFERENCE</div>
+        <h1>CSS Full Notes</h1>
+        <p>Cascading Style Sheets — From Selectors to Layouts</p>
+    </header>
+
+    <!-- 1. WHAT IS CSS -->
+    <div class="section">
+        <div class="section-title"><span class="num">01</span> What is CSS?</div>
+        <div class="card">
+            <p><strong style="color:#fff">CSS (Cascading Style Sheets)</strong> is a stylesheet language used to control the <em>presentation</em> of HTML documents — colors, fonts, spacing, layout, animations, and more.</p>
+            <br>
+            <ul>
+                <li>HTML → Structure &amp; Content</li>
+                <li>CSS → Style &amp; Presentation</li>
+                <li>JavaScript → Behavior &amp; Interactivity</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 2. WAYS TO ADD CSS -->
+    <div class="section">
+        <div class="section-title"><span class="num">02</span> Ways to Add CSS</div>
+        <div class="grid-2">
+            <div class="card" style="border-left: 3px solid #7c3aed;">
+                <h3>1. Inline CSS</h3>
+                <p>Applied directly on the element using the <code>style</code> attribute. Highest specificity but hard to maintain.</p>
+                <div class="code-block"><span class="tag">&lt;h1</span> <span class="attr">style</span>=<span class="str">"color: red;"</span><span class="tag">&gt;</span>Hello<span class="tag">&lt;/h1&gt;</span></div>
+            </div>
+            <div class="card" style="border-left: 3px solid #06b6d4;">
+                <h3>2. Internal CSS</h3>
+                <p>Written inside a <code>&lt;style&gt;</code> tag in the <code>&lt;head&gt;</code>. Applies to one HTML page only.</p>
+                <div class="code-block"><span class="tag">&lt;style&gt;</span><br>  <span class="sel">p</span> { <span class="prop">color</span>: <span class="val">blue</span>; }<br><span class="tag">&lt;/style&gt;</span></div>
+            </div>
+            <div class="card" style="border-left: 3px solid #10b981;">
+                <h3>3. External CSS</h3>
+                <p>Stored in a separate <code>.css</code> file and linked via <code>&lt;link&gt;</code>. Best practice for large projects.</p>
+                <div class="code-block"><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. CSS SELECTORS -->
+    <div class="section">
+        <div class="section-title"><span class="num">03</span> CSS Selectors</div>
+        <div class="card">
+            <p>Selectors define <em>which HTML elements</em> a CSS rule applies to.</p>
+            <div class="selector-grid">
+                <div class="sel-card">
+                    <div class="sel-name">Element</div>
+                    <div class="sel-example">p { }</div>
+                    <p>Targets all &lt;p&gt; tags</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Class</div>
+                    <div class="sel-example">.same { }</div>
+                    <p>Targets class="same"</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">ID</div>
+                    <div class="sel-example">#lite { }</div>
+                    <p>Targets id="lite"</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Universal</div>
+                    <div class="sel-example">* { }</div>
+                    <p>Targets ALL elements</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Attribute</div>
+                    <div class="sel-example">[type="text"]</div>
+                    <p>Targets by attribute</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Group</div>
+                    <div class="sel-example">h1, h2 { }</div>
+                    <p>Targets multiple</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Descendant</div>
+                    <div class="sel-example">div p { }</div>
+                    <p>p inside any div</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Child</div>
+                    <div class="sel-example">div &gt; p { }</div>
+                    <p>Direct child only</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Pseudo-class</div>
+                    <div class="sel-example">a:hover { }</div>
+                    <p>On mouse hover</p>
+                </div>
+                <div class="sel-card">
+                    <div class="sel-name">Pseudo-element</div>
+                    <div class="sel-example">p::first-line</div>
+                    <p>Style first line</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. SPECIFICITY & CASCADE -->
+    <div class="section">
+        <div class="section-title"><span class="num">04</span> Specificity &amp; Cascade</div>
+        <div class="card">
+            <h3>Specificity (Higher wins)</h3>
+            <div class="priority-list">
+                <div class="priority-item">
+                    <span class="rank">1</span>
+                    <div class="bar" style="width:100%"></div>
+                    <span class="label"><code>!important</code> — Overrides everything</span>
+                </div>
+                <div class="priority-item">
+                    <span class="rank">2</span>
+                    <div class="bar" style="width:82%"></div>
+                    <span class="label">Inline style — <code>style="..."</code></span>
+                </div>
+                <div class="priority-item">
+                    <span class="rank">3</span>
+                    <div class="bar" style="width:64%"></div>
+                    <span class="label">ID selector — <code>#id</code></span>
+                </div>
+                <div class="priority-item">
+                    <span class="rank">4</span>
+                    <div class="bar" style="width:46%"></div>
+                    <span class="label">Class / Attribute / Pseudo-class — <code>.class</code></span>
+                </div>
+                <div class="priority-item">
+                    <span class="rank">5</span>
+                    <div class="bar" style="width:28%"></div>
+                    <span class="label">Element selector — <code>p, h1</code></span>
+                </div>
+                <div class="priority-item">
+                    <span class="rank">6</span>
+                    <div class="bar" style="width:12%"></div>
+                    <span class="label">Universal selector — <code>*</code></span>
+                </div>
+            </div>
+            <br>
+            <p>From your code: <code>*{color:black}</code> is overridden by <code>p{color:blue}</code>, then <code>.same{color:green}</code>, then <code>#lite{color:red}</code>.</p>
+        </div>
+    </div>
+
+    <!-- 5. COLORS -->
+    <div class="section">
+        <div class="section-title"><span class="num">05</span> Colors</div>
+        <div class="card">
+            <h3>Color Formats</h3>
+            <div class="code-block">
+<span class="sel">p</span> {<br>
+  <span class="prop">color</span>: <span class="val">red</span>;               <span class="cm">/* Named */</span><br>
+  <span class="prop">color</span>: <span class="val">#ff0000</span>;          <span class="cm">/* Hex */</span><br>
+  <span class="prop">color</span>: <span class="val">rgb(255, 0, 0)</span>;    <span class="cm">/* RGB */</span><br>
+  <span class="prop">color</span>: <span class="val">rgba(255, 0, 0, 0.5)</span>;<span class="cm">/* RGBA (with opacity) */</span><br>
+  <span class="prop">color</span>: <span class="val">hsl(0, 100%, 50%)</span>;  <span class="cm">/* HSL */</span><br>
+  <span class="prop">background</span>: <span class="val">chartreuse</span>;   <span class="cm">/* Named colors work too */</span><br>
+}
+            </div>
+            <div class="color-demo">
+                <div class="color-swatch" style="background:#ff0000;color:#fff">red / #ff0000</div>
+                <div class="color-swatch" style="background:#7fffd4;color:#000">aquamarine</div>
+                <div class="color-swatch" style="background:chartreuse;color:#000">chartreuse</div>
+                <div class="color-swatch" style="background:aqua;color:#000">aqua</div>
+                <div class="color-swatch" style="background:chocolate;color:#fff">chocolate</div>
+                <div class="color-swatch" style="background:rgb(59,10,218);color:#fff">rgb(59,10,218)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. TEXT PROPERTIES -->
+    <div class="section">
+        <div class="section-title"><span class="num">06</span> Text Properties</div>
+        <div class="card">
+            <table class="prop-table">
+                <tr><th>Property</th><th>Example Value</th><th>Effect</th></tr>
+                <tr><td>color</td><td>red / #fff / rgb()</td><td>Text color</td></tr>
+                <tr><td>font-size</td><td>16px / 1rem / 2em</td><td>Size of text</td></tr>
+                <tr><td>font-family</td><td>'Arial', sans-serif</td><td>Font typeface</td></tr>
+                <tr><td>font-weight</td><td>normal / bold / 700</td><td>Thickness</td></tr>
+                <tr><td>font-style</td><td>normal / italic</td><td>Italic text</td></tr>
+                <tr><td>text-align</td><td>left / center / right</td><td>Alignment</td></tr>
+                <tr><td>text-decoration</td><td>underline / none</td><td>Underline etc.</td></tr>
+                <tr><td>text-transform</td><td>uppercase / capitalize</td><td>Case change</td></tr>
+                <tr><td>letter-spacing</td><td>2px</td><td>Space between letters</td></tr>
+                <tr><td>line-height</td><td>1.5 / 24px</td><td>Space between lines</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 7. BACKGROUND -->
+    <div class="section">
+        <div class="section-title"><span class="num">07</span> Background Properties</div>
+        <div class="card">
+            <div class="code-block">
+<span class="sel">div</span> {<br>
+  <span class="prop">background-color</span>: <span class="val">#f0f0f0</span>;<br>
+  <span class="prop">background-image</span>: <span class="val">url('image.jpg')</span>;<br>
+  <span class="prop">background-repeat</span>: <span class="val">no-repeat</span>;     <span class="cm">/* repeat / repeat-x / repeat-y */</span><br>
+  <span class="prop">background-size</span>: <span class="val">cover</span>;            <span class="cm">/* contain / 100px / 50% */</span><br>
+  <span class="prop">background-position</span>: <span class="val">center</span>;      <span class="cm">/* top / bottom / left right */</span><br>
+  <span class="prop">background-attachment</span>: <span class="val">fixed</span>;     <span class="cm">/* scroll / local */</span><br>
+  <span class="cm">/* Shorthand: */</span><br>
+  <span class="prop">background</span>: <span class="val">url('img.png') no-repeat center/cover</span>;<br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. BOX MODEL -->
+    <div class="section">
+        <div class="section-title"><span class="num">08</span> The CSS Box Model</div>
+        <div class="card">
+            <p>Every HTML element is a box. From outside to inside:</p>
+            <div class="box-model">
+                <div class="bm-margin">
+                    <span class="bm-label">margin</span>
+                    <div class="bm-border">
+                        border
+                        <div class="bm-padding">
+                            padding
+                            <div class="bm-content">content</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="sel">div</span> {<br>
+  <span class="prop">width</span>: <span class="val">300px</span>;         <span class="cm">/* Content width */</span><br>
+  <span class="prop">height</span>: <span class="val">200px</span>;        <span class="cm">/* Content height */</span><br>
+  <span class="prop">padding</span>: <span class="val">20px</span>;        <span class="cm">/* Inside spacing */</span><br>
+  <span class="prop">border</span>: <span class="val">2px solid #000</span>;<span class="cm">/* Border around element */</span><br>
+  <span class="prop">margin</span>: <span class="val">10px auto</span>;   <span class="cm">/* Outside spacing / centering */</span><br>
+  <span class="prop">box-sizing</span>: <span class="val">border-box</span>; <span class="cm">/* Include padding+border in width */</span><br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. BORDERS -->
+    <div class="section">
+        <div class="section-title"><span class="num">09</span> Border Properties</div>
+        <div class="card">
+            <div class="code-block">
+<span class="sel">button</span> {<br>
+  <span class="prop">border</span>: <span class="val">2px solid red</span>;         <span class="cm">/* width style color */</span><br>
+  <span class="prop">border-style</span>: <span class="val">solid | dashed | dotted | double | none</span>;<br>
+  <span class="prop">border-width</span>: <span class="val">1px 2px 3px 4px</span>;  <span class="cm">/* top right bottom left */</span><br>
+  <span class="prop">border-radius</span>: <span class="val">8px</span>;             <span class="cm">/* Rounded corners */</span><br>
+  <span class="prop">border-radius</span>: <span class="val">50%</span>;             <span class="cm">/* Circle shape */</span><br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. DISPLAY -->
+    <div class="section">
+        <div class="section-title"><span class="num">10</span> Display &amp; Visibility</div>
+        <div class="card">
+            <table class="prop-table">
+                <tr><th>Value</th><th>Behavior</th></tr>
+                <tr><td>block</td><td>Takes full width, starts on new line (div, p, h1)</td></tr>
+                <tr><td>inline</td><td>Takes only needed width, no new line (span, a)</td></tr>
+                <tr><td>inline-block</td><td>Inline but respects width/height/padding</td></tr>
+                <tr><td>none</td><td>Element hidden, takes no space</td></tr>
+                <tr><td>flex</td><td>Flexbox layout container</td></tr>
+                <tr><td>grid</td><td>Grid layout container</td></tr>
+            </table>
+            <div class="code-block">
+<span class="sel">.hidden</span>  { <span class="prop">display</span>: <span class="val">none</span>; }          <span class="cm">/* removes from layout */</span><br>
+<span class="sel">.invisible</span> { <span class="prop">visibility</span>: <span class="val">hidden</span>; }  <span class="cm">/* hides but keeps space */</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. POSITION -->
+    <div class="section">
+        <div class="section-title"><span class="num">11</span> Positioning</div>
+        <div class="card">
+            <table class="prop-table">
+                <tr><th>Value</th><th>Behavior</th></tr>
+                <tr><td>static</td><td>Default. Follows normal document flow</td></tr>
+                <tr><td>relative</td><td>Offset from its own normal position</td></tr>
+                <tr><td>absolute</td><td>Positioned relative to nearest positioned parent</td></tr>
+                <tr><td>fixed</td><td>Stays fixed to viewport (e.g., sticky navbar)</td></tr>
+                <tr><td>sticky</td><td>Relative until scroll threshold, then fixed</td></tr>
+            </table>
+            <div class="code-block">
+<span class="sel">.box</span> {<br>
+  <span class="prop">position</span>: <span class="val">absolute</span>;<br>
+  <span class="prop">top</span>: <span class="val">20px</span>;<br>
+  <span class="prop">left</span>: <span class="val">50px</span>;<br>
+  <span class="prop">z-index</span>: <span class="val">10</span>;  <span class="cm">/* stacking order */</span><br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 12. FLEXBOX -->
+    <div class="section">
+        <div class="section-title"><span class="num">12</span> Flexbox</div>
+        <div class="card">
+            <p>Apply <code>display: flex</code> to a container to make children flex items.</p>
+            <div class="code-block">
+<span class="sel">.container</span> {<br>
+  <span class="prop">display</span>: <span class="val">flex</span>;<br>
+  <span class="prop">flex-direction</span>: <span class="val">row | column</span>;<br>
+  <span class="prop">justify-content</span>: <span class="val">flex-start | center | space-between | space-around</span>;<br>
+  <span class="prop">align-items</span>: <span class="val">stretch | center | flex-start | flex-end</span>;<br>
+  <span class="prop">flex-wrap</span>: <span class="val">wrap | nowrap</span>;<br>
+  <span class="prop">gap</span>: <span class="val">16px</span>;<br>
+}<br>
+<span class="sel">.item</span> {<br>
+  <span class="prop">flex</span>: <span class="val">1</span>;           <span class="cm">/* grow equally */</span><br>
+  <span class="prop">align-self</span>: <span class="val">center</span>; <span class="cm">/* override align-items */</span><br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 13. GRID -->
+    <div class="section">
+        <div class="section-title"><span class="num">13</span> CSS Grid</div>
+        <div class="card">
+            <div class="code-block">
+<span class="sel">.grid</span> {<br>
+  <span class="prop">display</span>: <span class="val">grid</span>;<br>
+  <span class="prop">grid-template-columns</span>: <span class="val">1fr 1fr 1fr</span>;     <span class="cm">/* 3 equal columns */</span><br>
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;  <span class="cm">/* same shorthand */</span><br>
+  <span class="prop">grid-template-rows</span>: <span class="val">auto 200px auto</span>;<br>
+  <span class="prop">gap</span>: <span class="val">20px</span>;<br>
+}<br>
+<span class="sel">.item</span> {<br>
+  <span class="prop">grid-column</span>: <span class="val">1 / 3</span>;   <span class="cm">/* spans columns 1 to 3 */</span><br>
+  <span class="prop">grid-row</span>: <span class="val">1 / 2</span>;<br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 14. PSEUDO CLASSES & ELEMENTS -->
+    <div class="section">
+        <div class="section-title"><span class="num">14</span> Pseudo-classes &amp; Pseudo-elements</div>
+        <div class="card">
+            <h3>Pseudo-classes</h3>
+            <div class="code-block">
+<span class="sel">a:hover</span>       { <span class="prop">color</span>: <span class="val">red</span>; }        <span class="cm">/* On mouse over */</span><br>
+<span class="sel">a:active</span>      { <span class="prop">color</span>: <span class="val">blue</span>; }       <span class="cm">/* While clicking */</span><br>
+<span class="sel">a:visited</span>     { <span class="prop">color</span>: <span class="val">purple</span>; }     <span class="cm">/* After visiting */</span><br>
+<span class="sel">input:focus</span>   { <span class="prop">outline</span>: <span class="val">2px solid blue</span>; }<br>
+<span class="sel">p:first-child</span> { <span class="prop">font-weight</span>: <span class="val">bold</span>; }<br>
+<span class="sel">li:nth-child(2)</span> { <span class="prop">color</span>: <span class="val">green</span>; }
+            </div>
+            <h3 style="margin-top:16px;">Pseudo-elements</h3>
+            <div class="code-block">
+<span class="sel">p::first-line</span>   { <span class="prop">font-weight</span>: <span class="val">bold</span>; }<br>
+<span class="sel">p::first-letter</span> { <span class="prop">font-size</span>: <span class="val">2em</span>; }<br>
+<span class="sel">div::before</span>     { <span class="prop">content</span>: <span class="val">"★ "</span>; <span class="prop">color</span>: <span class="val">gold</span>; }<br>
+<span class="sel">div::after</span>      { <span class="prop">content</span>: <span class="val">" ✓"</span>; <span class="prop">color</span>: <span class="val">green</span>; }<br>
+<span class="sel">::selection</span>     { <span class="prop">background</span>: <span class="val">yellow</span>; }
+            </div>
+        </div>
+    </div>
+
+    <!-- 15. RESPONSIVE -->
+    <div class="section">
+        <div class="section-title"><span class="num">15</span> Responsive Design &amp; Media Queries</div>
+        <div class="card">
+            <div class="code-block">
+<span class="cm">/* Mobile first approach */</span><br>
+<span class="sel">.container</span> { <span class="prop">width</span>: <span class="val">100%</span>; }<br><br>
+<span class="cm">/* Tablet (768px and up) */</span><br>
+<span class="kw">@media</span> (<span class="prop">min-width</span>: <span class="val">768px</span>) {<br>
+  <span class="sel">.container</span> { <span class="prop">max-width</span>: <span class="val">720px</span>; }<br>
+}<br><br>
+<span class="cm">/* Desktop (1024px and up) */</span><br>
+<span class="kw">@media</span> (<span class="prop">min-width</span>: <span class="val">1024px</span>) {<br>
+  <span class="sel">.container</span> { <span class="prop">max-width</span>: <span class="val">960px</span>; }<br>
+}<br><br>
+<span class="cm">/* Max-width approach (tablet and below) */</span><br>
+<span class="kw">@media</span> (<span class="prop">max-width</span>: <span class="val">600px</span>) {<br>
+  <span class="sel">nav</span> { <span class="prop">display</span>: <span class="val">none</span>; }<br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 16. TRANSITIONS & ANIMATIONS -->
+    <div class="section">
+        <div class="section-title"><span class="num">16</span> Transitions &amp; Animations</div>
+        <div class="card">
+            <h3>Transitions</h3>
+            <div class="code-block">
+<span class="sel">button</span> {<br>
+  <span class="prop">background</span>: <span class="val">blue</span>;<br>
+  <span class="prop">transition</span>: <span class="val">background 0.3s ease</span>;  <span class="cm">/* property duration timing */</span><br>
+}<br>
+<span class="sel">button:hover</span> { <span class="prop">background</span>: <span class="val">darkblue</span>; }
+            </div>
+            <h3 style="margin-top:16px;">Keyframe Animations</h3>
+            <div class="code-block">
+<span class="kw">@keyframes</span> <span class="sel">fadeIn</span> {<br>
+  <span class="val">from</span> { <span class="prop">opacity</span>: <span class="val">0</span>; }<br>
+  <span class="val">to</span>   { <span class="prop">opacity</span>: <span class="val">1</span>; }<br>
+}<br><br>
+<span class="sel">.box</span> {<br>
+  <span class="prop">animation</span>: <span class="val">fadeIn 1s ease-in-out forwards</span>;<br>
+  <span class="cm">/* name duration timing fill-mode */</span><br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 17. CSS VARIABLES -->
+    <div class="section">
+        <div class="section-title"><span class="num">17</span> CSS Variables (Custom Properties)</div>
+        <div class="card">
+            <div class="code-block">
+<span class="cm">/* Declare in :root (global) */</span><br>
+<span class="sel">:root</span> {<br>
+  <span class="prop">--primary-color</span>: <span class="val">#7c3aed</span>;<br>
+  <span class="prop">--font-size</span>: <span class="val">16px</span>;<br>
+  <span class="prop">--spacing</span>: <span class="val">8px</span>;<br>
+}<br><br>
+<span class="cm">/* Use with var() */</span><br>
+<span class="sel">button</span> {<br>
+  <span class="prop">background</span>: <span class="val">var(--primary-color)</span>;<br>
+  <span class="prop">font-size</span>: <span class="val">var(--font-size)</span>;<br>
+  <span class="prop">padding</span>: <span class="val">var(--spacing)</span>;<br>
+}
+            </div>
+        </div>
+    </div>
+
+    <!-- 18. COMMON PROPERTIES CHEATSHEET -->
+    <div class="section">
+        <div class="section-title"><span class="num">18</span> Quick Cheat Sheet</div>
+        <div class="card">
+            <div class="color-demo" style="flex-wrap:wrap;">
+                <span class="tag-pill">color</span>
+                <span class="tag-pill">background</span>
+                <span class="tag-pill">font-size</span>
+                <span class="tag-pill">font-family</span>
+                <span class="tag-pill">font-weight</span>
+                <span class="tag-pill">text-align</span>
+                <span class="tag-pill">text-decoration</span>
+                <span class="tag-pill">line-height</span>
+                <span class="tag-pill">letter-spacing</span>
+                <span class="tag-pill">width / height</span>
+                <span class="tag-pill">max-width</span>
+                <span class="tag-pill">padding</span>
+                <span class="tag-pill">margin</span>
+                <span class="tag-pill">border</span>
+                <span class="tag-pill">border-radius</span>
+                <span class="tag-pill">box-shadow</span>
+                <span class="tag-pill">display</span>
+                <span class="tag-pill">position</span>
+                <span class="tag-pill">top / left / right / bottom</span>
+                <span class="tag-pill">z-index</span>
+                <span class="tag-pill">overflow</span>
+                <span class="tag-pill">opacity</span>
+                <span class="tag-pill">cursor</span>
+                <span class="tag-pill">transition</span>
+                <span class="tag-pill">animation</span>
+                <span class="tag-pill">transform</span>
+                <span class="tag-pill">flex</span>
+                <span class="tag-pill">grid</span>
+                <span class="tag-pill">gap</span>
+                <span class="tag-pill">object-fit</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+    <div style="text-align:center; color: var(--muted); font-family:'Fira Code',monospace; font-size:0.82rem;">
+        CSS Full Notes &nbsp;•&nbsp; HTML + CSS Reference &nbsp;•&nbsp; All Chapters Covered
+    </div>
+
+</div>
+</body>
+</html>

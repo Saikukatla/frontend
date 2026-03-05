@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Full Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0f;
+            --card: #13131a;
+            --border: #2a2a3a;
+            --accent1: #f59e0b;
+            --accent2: #10b981;
+            --accent3: #ef4444;
+            --accent4: #3b82f6;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --code-bg: #1e1e2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 10% 10%, rgba(245,158,11,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 80%, rgba(16,185,129,0.09) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 40px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--card);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+            border-radius: 20px 20px 0 0;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(245,158,11,0.15);
+            border: 1px solid rgba(245,158,11,0.4);
+            color: #fbbf24;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 30%, #fbbf24 60%, var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.15;
+        }
+        header p { color: var(--muted); margin-top: 12px; font-size: 1rem; }
+
+        /* Section */
+        .section { margin-bottom: 36px; }
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title .num {
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            color: #000;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        /* Card */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .card:hover { border-color: rgba(245,158,11,0.35); transform: translateY(-2px); }
+        .card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; color: var(--accent2); margin-bottom: 10px; }
+        .card p, .card li { color: var(--muted); font-size: 0.95rem; }
+        .card ul { padding-left: 20px; }
+        .card li { margin-bottom: 4px; }
+
+        /* Grid */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+
+        /* Code */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent1);
+            border-radius: 10px;
+            padding: 20px 22px;
+            margin: 14px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            line-height: 1.9;
+        }
+        .code-block .tag  { color: #ff757f; }
+        .code-block .attr { color: #ffcb6b; }
+        .code-block .str  { color: #c3e88d; }
+        .code-block .cm   { color: #546e7a; font-style: italic; }
+        .code-block .txt  { color: #cdd6f4; }
+        .code-block .kw   { color: #c792ea; }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(245,158,11,0.15);
+            color: #fbbf24;
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 0.88em;
+        }
+
+        /* Tag table */
+        .tag-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.88rem; }
+        .tag-table th { background: rgba(245,158,11,0.15); color: #fbbf24; padding: 10px 14px; text-align: left; font-family:'Fira Code',monospace; border-bottom: 1px solid var(--border); }
+        .tag-table td { padding: 9px 14px; border-bottom: 1px solid rgba(42,42,58,0.6); color: var(--muted); vertical-align: top; }
+        .tag-table tr:hover td { background: rgba(245,158,11,0.05); color: var(--text); }
+        .tag-table td:first-child { font-family: 'Fira Code', monospace; color: #ff757f; white-space: nowrap; }
+        .tag-table td:nth-child(2) { color: #fbbf24; }
+
+        /* Tag pill */
+        .tag-pill {
+            display: inline-block;
+            background: rgba(16,185,129,0.12);
+            border: 1px solid rgba(16,185,129,0.3);
+            color: var(--accent2);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin: 3px;
+        }
+
+        /* Structure visual */
+        .tree {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.88rem;
+            line-height: 2;
+            padding: 16px 20px;
+            background: var(--code-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .tree .l0 { color: #ff757f; }
+        .tree .l1 { color: #ffcb6b; padding-left: 20px; display:block; }
+        .tree .l2 { color: #7fc8a9; padding-left: 40px; display:block; }
+        .tree .l3 { color: #c4b5fd; padding-left: 60px; display:block; }
+        .tree .note { color: #546e7a; font-style:italic; }
+
+        /* Mini demo */
+        .demo-box {
+            border: 1px dashed rgba(245,158,11,0.4);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 12px;
+            background: rgba(245,158,11,0.04);
+        }
+        .demo-box p { color: var(--muted); font-size: 0.85rem; margin-bottom: 4px; }
+
+        /* Category cards */
+        .cat-card {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 18px;
+        }
+        .cat-card .cat-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent1);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cat-card .cat-title span { font-size: 1rem; }
+        .cat-card .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .cat-card .tags code { font-size: 0.78rem; }
+
+        /* Attribute table */
+        .attr-row {
+            display: flex;
+            gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(42,42,58,0.5);
+            font-size: 0.88rem;
+            align-items: flex-start;
+        }
+        .attr-row:last-child { border-bottom: none; }
+        .attr-row .a-name { font-family:'Fira Code',monospace; color: #ffcb6b; min-width: 140px; }
+        .attr-row .a-desc { color: var(--muted); }
+
+        /* Divider */
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 40px 0; }
+
+        @media (max-width: 600px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <div class="badge">&#x1F4C4; COMPLETE REFERENCE</div>
+        <h1>HTML Full Notes</h1>
+        <p>HyperText Markup Language — From Structure to Semantics</p>
+    </header>
+
+    <!-- 1. WHAT IS HTML -->
+    <div class="section">
+        <div class="section-title"><span class="num">01</span> What is HTML?</div>
+        <div class="card">
+            <p><strong style="color:#fff">HTML (HyperText Markup Language)</strong> is the standard language for creating web pages. It describes the <em>structure and content</em> of a webpage using <em>elements</em> and <em>tags</em>.</p>
+            <br>
+            <ul>
+                <li><strong style="color:#fff">HyperText</strong> — Text that links to other pages (hyperlinks)</li>
+                <li><strong style="color:#fff">Markup</strong> — Tags that annotate/structure content</li>
+                <li><strong style="color:#fff">Language</strong> — A set of rules browsers understand</li>
+            </ul>
+            <br>
+            <p>HTML is NOT a programming language — it has no logic or variables. It is a <em>markup language</em>.</p>
+        </div>
+    </div>
+
+    <!-- 2. BASIC STRUCTURE -->
+    <div class="section">
+        <div class="section-title"><span class="num">02</span> Basic HTML Structure</div>
+        <div class="card">
+            <p>Every HTML page follows this skeleton structure:</p>
+            <div class="code-block">
+<span class="tag">&lt;!DOCTYPE html&gt;</span>                   <span class="cm">&lt;!-- Declares HTML5 --&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="str">"en"</span><span class="tag">&gt;</span>                  <span class="cm">&lt;!-- Root element --&gt;</span>
+  <span class="tag">&lt;head&gt;</span>                            <span class="cm">&lt;!-- Meta info (not visible) --&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="str">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="txt">Page Title</span><span class="tag">&lt;/title&gt;</span>
+    <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>                            <span class="cm">&lt;!-- Visible content --&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="txt">Hello World!</span><span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="txt">This is a paragraph.</span><span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span>
+            </div>
+            <div class="tree">
+                <span class="l0">&#x25B6; &lt;html&gt;</span>
+                <span class="l1">&#x251C;&#x2500; &lt;head&gt; <span class="note">— metadata, title, links</span></span>
+                <span class="l2">&#x251C;&#x2500; &lt;meta&gt;</span>
+                <span class="l2">&#x2514;&#x2500; &lt;title&gt;</span>
+                <span class="l1">&#x2514;&#x2500; &lt;body&gt; <span class="note">— all visible content</span></span>
+                <span class="l2">&#x251C;&#x2500; &lt;header&gt;</span>
+                <span class="l2">&#x251C;&#x2500; &lt;main&gt;</span>
+                <span class="l3">&#x251C;&#x2500; &lt;h1&gt;, &lt;p&gt;, &lt;div&gt;...</span>
+                <span class="l2">&#x2514;&#x2500; &lt;footer&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. HTML ELEMENTS & TAGS -->
+    <div class="section">
+        <div class="section-title"><span class="num">03</span> Elements &amp; Tags</div>
+        <div class="card">
+            <div class="grid-2">
+                <div>
+                    <h3>Opening + Closing Tag</h3>
+                    <div class="code-block"><span class="tag">&lt;p&gt;</span><span class="txt">Content here</span><span class="tag">&lt;/p&gt;</span></div>
+                    <p>Most elements have both an opening and closing tag.</p>
+                </div>
+                <div>
+                    <h3>Self-Closing Tags</h3>
+                    <div class="code-block"><span class="tag">&lt;br&gt;</span>  <span class="tag">&lt;hr&gt;</span>  <span class="tag">&lt;img&gt;</span>  <span class="tag">&lt;input&gt;</span>  <span class="tag">&lt;meta&gt;</span>  <span class="tag">&lt;link&gt;</span></div>
+                    <p>These tags do not need a closing tag.</p>
+                </div>
+            </div>
+            <div class="code-block">
+<span class="cm">&lt;!-- Anatomy of an element --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"https://google.com"</span> <span class="attr">target</span>=<span class="str">"_blank"</span><span class="tag">&gt;</span><span class="txt">Visit Google</span><span class="tag">&lt;/a&gt;</span>
+<span class="cm">&lt;!--  ↑ tag  ↑ attribute  ↑ value           ↑ content  ↑ closing tag --&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. HEADINGS -->
+    <div class="section">
+        <div class="section-title"><span class="num">04</span> Headings</div>
+        <div class="card">
+            <p>HTML has 6 heading levels — <code>&lt;h1&gt;</code> is the largest/most important, <code>&lt;h6&gt;</code> is the smallest.</p>
+            <div class="code-block">
+<span class="tag">&lt;h1&gt;</span><span class="txt">Heading 1 — Main Title</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="txt">Heading 2 — Section</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span><span class="txt">Heading 3 — Sub-section</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h4&gt;</span><span class="txt">Heading 4</span><span class="tag">&lt;/h4&gt;</span>
+<span class="tag">&lt;h5&gt;</span><span class="txt">Heading 5</span><span class="tag">&lt;/h5&gt;</span>
+<span class="tag">&lt;h6&gt;</span><span class="txt">Heading 6 — Smallest</span><span class="tag">&lt;/h6&gt;</span>
+            </div>
+            <p>Use only <strong style="color:#fff">one &lt;h1&gt; per page</strong> for good SEO. Headings should follow a logical order.</p>
+        </div>
+    </div>
+
+    <!-- 5. TEXT TAGS -->
+    <div class="section">
+        <div class="section-title"><span class="num">05</span> Text &amp; Inline Tags</div>
+        <div class="card">
+            <table class="tag-table">
+                <tr><th>Tag</th><th>Name</th><th>Purpose</th></tr>
+                <tr><td>&lt;p&gt;</td><td>Paragraph</td><td>Block of text</td></tr>
+                <tr><td>&lt;span&gt;</td><td>Span</td><td>Inline container for styling</td></tr>
+                <tr><td>&lt;strong&gt;</td><td>Strong</td><td><strong>Bold</strong> + semantic importance</td></tr>
+                <tr><td>&lt;b&gt;</td><td>Bold</td><td><b>Bold</b> text (no semantic meaning)</td></tr>
+                <tr><td>&lt;em&gt;</td><td>Emphasis</td><td><em>Italic</em> + emphasis meaning</td></tr>
+                <tr><td>&lt;i&gt;</td><td>Italic</td><td><i>Italic</i> text (no semantic meaning)</td></tr>
+                <tr><td>&lt;u&gt;</td><td>Underline</td><td><u>Underlined</u> text</td></tr>
+                <tr><td>&lt;mark&gt;</td><td>Mark</td><td><mark style="background:#fbbf24;color:#000;padding:0 4px">Highlighted</mark> text</td></tr>
+                <tr><td>&lt;small&gt;</td><td>Small</td><td><small>Smaller</small> text</td></tr>
+                <tr><td>&lt;del&gt;</td><td>Delete</td><td><del>Strikethrough</del> text</td></tr>
+                <tr><td>&lt;ins&gt;</td><td>Insert</td><td><ins>Underlined insert</ins></td></tr>
+                <tr><td>&lt;sub&gt;</td><td>Subscript</td><td>H<sub>2</sub>O</td></tr>
+                <tr><td>&lt;sup&gt;</td><td>Superscript</td><td>X<sup>2</sup></td></tr>
+                <tr><td>&lt;br&gt;</td><td>Line Break</td><td>New line (self-closing)</td></tr>
+                <tr><td>&lt;hr&gt;</td><td>Horizontal Rule</td><td>Horizontal divider line</td></tr>
+                <tr><td>&lt;pre&gt;</td><td>Preformatted</td><td>Preserves spaces &amp; line breaks</td></tr>
+                <tr><td>&lt;code&gt;</td><td>Code</td><td>Inline code snippet</td></tr>
+                <tr><td>&lt;blockquote&gt;</td><td>Blockquote</td><td>Quoted section from another source</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 6. LINKS -->
+    <div class="section">
+        <div class="section-title"><span class="num">06</span> Links — &lt;a&gt; Tag</div>
+        <div class="card">
+            <div class="code-block">
+<span class="cm">&lt;!-- External link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"https://google.com"</span> <span class="attr">target</span>=<span class="str">"_blank"</span><span class="tag">&gt;</span><span class="txt">Google</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Internal link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"about.html"</span><span class="tag">&gt;</span><span class="txt">About Page</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Jump to section (anchor) --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"#section1"</span><span class="tag">&gt;</span><span class="txt">Go to Section 1</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Email link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"mailto:user@email.com"</span><span class="tag">&gt;</span><span class="txt">Email Us</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="cm">&lt;!-- Phone link --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"tel:+911234567890"</span><span class="tag">&gt;</span><span class="txt">Call Us</span><span class="tag">&lt;/a&gt;</span>
+            </div>
+            <table class="tag-table" style="margin-top:12px">
+                <tr><th>Attribute</th><th>Value</th><th>Meaning</th></tr>
+                <tr><td>href</td><td>URL / path / #id</td><td>Link destination</td></tr>
+                <tr><td>target</td><td>_blank / _self</td><td>Open in new tab / same tab</td></tr>
+                <tr><td>title</td><td>"text"</td><td>Tooltip on hover</td></tr>
+                <tr><td>download</td><td>filename</td><td>Triggers file download</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 7. IMAGES -->
+    <div class="section">
+        <div class="section-title"><span class="num">07</span> Images — &lt;img&gt; Tag</div>
+        <div class="card">
+            <div class="code-block">
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"photo.jpg"</span> <span class="attr">alt</span>=<span class="str">"A photo"</span> <span class="attr">width</span>=<span class="str">"300"</span> <span class="attr">height</span>=<span class="str">"200"</span><span class="tag">&gt;</span>
+
+<span class="cm">&lt;!-- From URL --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"https://example.com/img.png"</span> <span class="attr">alt</span>=<span class="str">"Example"</span><span class="tag">&gt;</span>
+            </div>
+            <table class="tag-table" style="margin-top:12px">
+                <tr><th>Attribute</th><th>Purpose</th></tr>
+                <tr><td>src</td><td>Path or URL of the image (required)</td></tr>
+                <tr><td>alt</td><td>Alternative text if image fails / for accessibility (required)</td></tr>
+                <tr><td>width</td><td>Width in pixels</td></tr>
+                <tr><td>height</td><td>Height in pixels</td></tr>
+                <tr><td>loading</td><td>"lazy" — loads image only when visible (performance)</td></tr>
+                <tr><td>title</td><td>Tooltip text on hover</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 8. LISTS -->
+    <div class="section">
+        <div class="section-title"><span class="num">08</span> Lists</div>
+        <div class="card">
+            <div class="grid-2">
+                <div>
+                    <h3>Unordered List (bullets)</h3>
+                    <div class="code-block">
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">CSS</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">JavaScript</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+                    </div>
+                </div>
+                <div>
+                    <h3>Ordered List (numbers)</h3>
+                    <div class="code-block">
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Step One</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Step Two</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="txt">Step Three</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+                    </div>
+                </div>
+            </div>
+            <h3 style="margin-top:8px;">Description List</h3>
+            <div class="code-block">
+<span class="tag">&lt;dl&gt;</span>
+  <span class="tag">&lt;dt&gt;</span><span class="txt">HTML</span><span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="txt">HyperText Markup Language</span><span class="tag">&lt;/dd&gt;</span>
+  <span class="tag">&lt;dt&gt;</span><span class="txt">CSS</span><span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span><span class="txt">Cascading Style Sheets</span><span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. TABLES -->
+    <div class="section">
+        <div class="section-title"><span class="num">09</span> Tables</div>
+        <div class="card">
+            <div class="code-block">
+<span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="str">"1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;thead&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;th&gt;</span><span class="txt">Name</span><span class="tag">&lt;/th&gt;</span>  <span class="tag">&lt;th&gt;</span><span class="txt">Age</span><span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/thead&gt;</span>
+  <span class="tag">&lt;tbody&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td&gt;</span><span class="txt">Alice</span><span class="tag">&lt;/td&gt;</span>  <span class="tag">&lt;td&gt;</span><span class="txt">20</span><span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td</span> <span class="attr">colspan</span>=<span class="str">"2"</span><span class="tag">&gt;</span><span class="txt">Merged cell</span><span class="tag">&lt;/td&gt;</span>  <span class="cm">&lt;!-- spans 2 columns --&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/tbody&gt;</span>
+  <span class="tag">&lt;tfoot&gt;</span>
+    <span class="tag">&lt;tr&gt;&lt;td</span> <span class="attr">colspan</span>=<span class="str">"2"</span><span class="tag">&gt;</span><span class="txt">Footer row</span><span class="tag">&lt;/td&gt;&lt;/tr&gt;</span>
+  <span class="tag">&lt;/tfoot&gt;</span>
+<span class="tag">&lt;/table&gt;</span>
+            </div>
+            <p>Key attributes: <code>colspan</code> — merge columns &nbsp;|&nbsp; <code>rowspan</code> — merge rows</p>
+        </div>
+    </div>
+
+    <!-- 10. FORMS -->
+    <div class="section">
+        <div class="section-title"><span class="num">10</span> Forms &amp; Inputs</div>
+        <div class="card">
+            <div class="code-block">
+<span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="str">"/submit"</span> <span class="attr">method</span>=<span class="str">"post"</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="str">"name"</span><span class="tag">&gt;</span><span class="txt">Name:</span><span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"text"</span> <span class="attr">id</span>=<span class="str">"name"</span> <span class="attr">name</span>=<span class="str">"name"</span> <span class="attr">placeholder</span>=<span class="str">"Enter name"</span> <span class="attr">required</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"email"</span> <span class="attr">placeholder</span>=<span class="str">"Email"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"password"</span> <span class="attr">placeholder</span>=<span class="str">"Password"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"number"</span> <span class="attr">min</span>=<span class="str">"1"</span> <span class="attr">max</span>=<span class="str">"100"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"date"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"checkbox"</span><span class="tag">&gt;</span> <span class="txt">Remember me</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"radio"</span> <span class="attr">name</span>=<span class="str">"gender"</span><span class="tag">&gt;</span> <span class="txt">Male</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"file"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"range"</span> <span class="attr">min</span>=<span class="str">"0"</span> <span class="attr">max</span>=<span class="str">"100"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"color"</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;textarea</span> <span class="attr">rows</span>=<span class="str">"4"</span> <span class="attr">cols</span>=<span class="str">"30"</span><span class="tag">&gt;</span><span class="txt">Message here</span><span class="tag">&lt;/textarea&gt;</span>
+
+  <span class="tag">&lt;select</span> <span class="attr">name</span>=<span class="str">"city"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="str">"hyd"</span><span class="tag">&gt;</span><span class="txt">Hyderabad</span><span class="tag">&lt;/option&gt;</span>
+    <span class="tag">&lt;option</span> <span class="attr">value</span>=<span class="str">"mum"</span><span class="tag">&gt;</span><span class="txt">Mumbai</span><span class="tag">&lt;/option&gt;</span>
+  <span class="tag">&lt;/select&gt;</span>
+
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="str">"submit"</span><span class="tag">&gt;</span><span class="txt">Submit</span><span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="str">"reset"</span><span class="tag">&gt;</span><span class="txt">Reset</span><span class="tag">&lt;/button&gt;</span>
+
+<span class="tag">&lt;/form&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. DIV & SPAN -->
+    <div class="section">
+        <div class="section-title"><span class="num">11</span> &lt;div&gt; vs &lt;span&gt;</div>
+        <div class="card">
+            <div class="grid-2">
+                <div>
+                    <h3>&lt;div&gt; — Block Container</h3>
+                    <p>Used to group block-level elements. Takes full width, starts on a new line. Used for layout sections.</p>
+                    <div class="code-block">
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"box"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p&gt;</span><span class="txt">Grouped content</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+                    </div>
+                </div>
+                <div>
+                    <h3>&lt;span&gt; — Inline Container</h3>
+                    <p>Used to style a part of text inline. Does NOT start a new line. Used for inline styling.</p>
+                    <div class="code-block">
+<span class="tag">&lt;p&gt;</span><span class="txt">There </span><span class="tag">&lt;span</span> <span class="attr">style</span>=<span class="str">"color:aqua"</span><span class="tag">&gt;</span><span class="txt">are three</span><span class="tag">&lt;/span&gt;</span><span class="txt"> types</span><span class="tag">&lt;/p&gt;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 12. SEMANTIC HTML -->
+    <div class="section">
+        <div class="section-title"><span class="num">12</span> Semantic HTML5 Tags</div>
+        <div class="card">
+            <p>Semantic tags describe the <em>meaning</em> of content — better for SEO, accessibility, and readability.</p>
+            <div class="code-block" style="margin-top:14px">
+<span class="tag">&lt;header&gt;</span>   <span class="cm">&lt;!-- Top of page / section --&gt;</span>
+<span class="tag">&lt;nav&gt;</span>      <span class="cm">&lt;!-- Navigation links --&gt;</span>
+<span class="tag">&lt;main&gt;</span>     <span class="cm">&lt;!-- Primary content (only one per page) --&gt;</span>
+<span class="tag">&lt;section&gt;</span>  <span class="cm">&lt;!-- Thematic group of content --&gt;</span>
+<span class="tag">&lt;article&gt;</span>  <span class="cm">&lt;!-- Independent content (blog post, news) --&gt;</span>
+<span class="tag">&lt;aside&gt;</span>    <span class="cm">&lt;!-- Sidebar / supplementary content --&gt;</span>
+<span class="tag">&lt;footer&gt;</span>   <span class="cm">&lt;!-- Bottom of page / section --&gt;</span>
+<span class="tag">&lt;figure&gt;</span>   <span class="cm">&lt;!-- Image + caption container --&gt;</span>
+<span class="tag">&lt;figcaption&gt;</span> <span class="cm">&lt;!-- Caption for figure --&gt;</span>
+<span class="tag">&lt;details&gt;</span>  <span class="cm">&lt;!-- Expandable content --&gt;</span>
+<span class="tag">&lt;summary&gt;</span>  <span class="cm">&lt;!-- Visible heading for &lt;details&gt; --&gt;</span>
+<span class="tag">&lt;time&gt;</span>     <span class="cm">&lt;!-- Date/time value --&gt;</span>
+<span class="tag">&lt;address&gt;</span>  <span class="cm">&lt;!-- Contact info --&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 13. ATTRIBUTES -->
+    <div class="section">
+        <div class="section-title"><span class="num">13</span> Common HTML Attributes</div>
+        <div class="card">
+            <div class="attr-row"><span class="a-name">id="name"</span><span class="a-desc">Unique identifier. Used in CSS (#id) and JS. Only one per page.</span></div>
+            <div class="attr-row"><span class="a-name">class="name"</span><span class="a-desc">Groups elements. Used in CSS (.class). Multiple elements can share a class.</span></div>
+            <div class="attr-row"><span class="a-name">style="..."</span><span class="a-desc">Inline CSS styles directly on element.</span></div>
+            <div class="attr-row"><span class="a-name">href="url"</span><span class="a-desc">Link destination for &lt;a&gt; tag.</span></div>
+            <div class="attr-row"><span class="a-name">src="url"</span><span class="a-desc">Source path for &lt;img&gt;, &lt;script&gt;, &lt;iframe&gt;.</span></div>
+            <div class="attr-row"><span class="a-name">alt="text"</span><span class="a-desc">Alternative text for images (accessibility).</span></div>
+            <div class="attr-row"><span class="a-name">target="_blank"</span><span class="a-desc">Opens link in new tab.</span></div>
+            <div class="attr-row"><span class="a-name">placeholder="..."</span><span class="a-desc">Hint text inside input fields.</span></div>
+            <div class="attr-row"><span class="a-name">required</span><span class="a-desc">Makes form field mandatory (boolean attribute).</span></div>
+            <div class="attr-row"><span class="a-name">disabled</span><span class="a-desc">Disables an input or button.</span></div>
+            <div class="attr-row"><span class="a-name">checked</span><span class="a-desc">Pre-checks a checkbox or radio.</span></div>
+            <div class="attr-row"><span class="a-name">value="..."</span><span class="a-desc">Default value for input fields.</span></div>
+            <div class="attr-row"><span class="a-name">name="..."</span><span class="a-desc">Key name for form submission data.</span></div>
+            <div class="attr-row"><span class="a-name">type="..."</span><span class="a-desc">Specifies type of &lt;input&gt; or &lt;button&gt;.</span></div>
+            <div class="attr-row"><span class="a-name">data-*="..."</span><span class="a-desc">Custom data attributes (e.g. data-id="5").</span></div>
+            <div class="attr-row"><span class="a-name">colspan / rowspan</span><span class="a-desc">Merge table columns / rows.</span></div>
+        </div>
+    </div>
+
+    <!-- 14. MEDIA -->
+    <div class="section">
+        <div class="section-title"><span class="num">14</span> Media — Audio &amp; Video</div>
+        <div class="card">
+            <div class="code-block">
+<span class="cm">&lt;!-- Video --&gt;</span>
+<span class="tag">&lt;video</span> <span class="attr">src</span>=<span class="str">"video.mp4"</span> <span class="attr">controls</span> <span class="attr">width</span>=<span class="str">"600"</span> <span class="attr">autoplay</span> <span class="attr">muted</span> <span class="attr">loop</span><span class="tag">&gt;</span>
+  <span class="txt">Your browser does not support video.</span>
+<span class="tag">&lt;/video&gt;</span>
+
+<span class="cm">&lt;!-- Audio --&gt;</span>
+<span class="tag">&lt;audio</span> <span class="attr">src</span>=<span class="str">"audio.mp3"</span> <span class="attr">controls</span><span class="tag">&gt;&lt;/audio&gt;</span>
+
+<span class="cm">&lt;!-- Iframe (embed another page/map/video) --&gt;</span>
+<span class="tag">&lt;iframe</span> <span class="attr">src</span>=<span class="str">"https://youtube.com/embed/ID"</span> <span class="attr">width</span>=<span class="str">"560"</span> <span class="attr">height</span>=<span class="str">"315"</span> <span class="attr">frameborder</span>=<span class="str">"0"</span><span class="tag">&gt;&lt;/iframe&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 15. META TAGS -->
+    <div class="section">
+        <div class="section-title"><span class="num">15</span> &lt;head&gt; &amp; Meta Tags</div>
+        <div class="card">
+            <div class="code-block">
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="str">"UTF-8"</span><span class="tag">&gt;</span>                          <span class="cm">&lt;!-- Character encoding --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span> <span class="cm">&lt;!-- Responsive --&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"description"</span> <span class="attr">content</span>=<span class="str">"Page description for SEO"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"keywords"</span> <span class="attr">content</span>=<span class="str">"html, css, web"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"author"</span> <span class="attr">content</span>=<span class="str">"Your Name"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span><span class="txt">My Website</span><span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"icon"</span> <span class="attr">href</span>=<span class="str">"favicon.ico"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"script.js"</span> <span class="attr">defer</span><span class="tag">&gt;&lt;/script&gt;</span>         <span class="cm">&lt;!-- defer = load after HTML --&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 16. BLOCK vs INLINE -->
+    <div class="section">
+        <div class="section-title"><span class="num">16</span> Block vs Inline Elements</div>
+        <div class="card">
+            <div class="grid-2">
+                <div class="cat-card" style="border-left: 3px solid var(--accent1);">
+                    <div class="cat-title"><span>▣</span> Block Elements</div>
+                    <p style="color:var(--muted);font-size:0.83rem;margin-bottom:10px;">Take full width. Start on new line.</p>
+                    <div class="tags">
+                        <code>&lt;div&gt;</code><code>&lt;p&gt;</code><code>&lt;h1-h6&gt;</code><code>&lt;ul&gt;</code><code>&lt;ol&gt;</code><code>&lt;li&gt;</code><code>&lt;table&gt;</code><code>&lt;form&gt;</code><code>&lt;header&gt;</code><code>&lt;section&gt;</code><code>&lt;article&gt;</code><code>&lt;footer&gt;</code><code>&lt;main&gt;</code><code>&lt;nav&gt;</code>
+                    </div>
+                </div>
+                <div class="cat-card" style="border-left: 3px solid var(--accent2);">
+                    <div class="cat-title"><span>▬</span> Inline Elements</div>
+                    <p style="color:var(--muted);font-size:0.83rem;margin-bottom:10px;">Take only needed width. No new line.</p>
+                    <div class="tags">
+                        <code>&lt;span&gt;</code><code>&lt;a&gt;</code><code>&lt;img&gt;</code><code>&lt;strong&gt;</code><code>&lt;em&gt;</code><code>&lt;b&gt;</code><code>&lt;i&gt;</code><code>&lt;u&gt;</code><code>&lt;br&gt;</code><code>&lt;input&gt;</code><code>&lt;button&gt;</code><code>&lt;label&gt;</code><code>&lt;code&gt;</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 17. HTML ENTITIES -->
+    <div class="section">
+        <div class="section-title"><span class="num">17</span> HTML Entities &amp; Special Characters</div>
+        <div class="card">
+            <table class="tag-table">
+                <tr><th>Entity</th><th>Symbol</th><th>Meaning</th></tr>
+                <tr><td>&amp;amp;</td><td>&amp;</td><td>Ampersand</td></tr>
+                <tr><td>&amp;lt;</td><td>&lt;</td><td>Less than</td></tr>
+                <tr><td>&amp;gt;</td><td>&gt;</td><td>Greater than</td></tr>
+                <tr><td>&amp;quot;</td><td>"</td><td>Double quote</td></tr>
+                <tr><td>&amp;apos;</td><td>'</td><td>Apostrophe</td></tr>
+                <tr><td>&amp;nbsp;</td><td>(space)</td><td>Non-breaking space</td></tr>
+                <tr><td>&amp;copy;</td><td>©</td><td>Copyright</td></tr>
+                <tr><td>&amp;reg;</td><td>®</td><td>Registered</td></tr>
+                <tr><td>&amp;trade;</td><td>™</td><td>Trademark</td></tr>
+                <tr><td>&amp;hearts;</td><td>♥</td><td>Heart</td></tr>
+                <tr><td>&amp;star;</td><td>★</td><td>Star</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 18. HTML COMMENTS -->
+    <div class="section">
+        <div class="section-title"><span class="num">18</span> Comments</div>
+        <div class="card">
+            <div class="code-block">
+<span class="cm">&lt;!-- This is a single-line comment --&gt;</span>
+
+<span class="cm">&lt;!--
+  This is a
+  multi-line comment
+--&gt;</span>
+
+<span class="tag">&lt;p&gt;</span><span class="txt">This is visible.</span><span class="tag">&lt;/p&gt;</span>
+<span class="cm">&lt;!-- &lt;p&gt;This is commented out (hidden).&lt;/p&gt; --&gt;</span>
+            </div>
+            <p>Comments are ignored by the browser — useful for notes and temporarily hiding code.</p>
+        </div>
+    </div>
+
+    <!-- 19. QUICK CHEAT SHEET -->
+    <div class="section">
+        <div class="section-title"><span class="num">19</span> Quick Tag Cheat Sheet</div>
+        <div class="card">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span class="tag-pill">&lt;html&gt;</span>
+                <span class="tag-pill">&lt;head&gt;</span>
+                <span class="tag-pill">&lt;body&gt;</span>
+                <span class="tag-pill">&lt;title&gt;</span>
+                <span class="tag-pill">&lt;meta&gt;</span>
+                <span class="tag-pill">&lt;link&gt;</span>
+                <span class="tag-pill">&lt;script&gt;</span>
+                <span class="tag-pill">&lt;style&gt;</span>
+                <span class="tag-pill">&lt;h1–h6&gt;</span>
+                <span class="tag-pill">&lt;p&gt;</span>
+                <span class="tag-pill">&lt;span&gt;</span>
+                <span class="tag-pill">&lt;div&gt;</span>
+                <span class="tag-pill">&lt;a&gt;</span>
+                <span class="tag-pill">&lt;img&gt;</span>
+                <span class="tag-pill">&lt;ul&gt;</span>
+                <span class="tag-pill">&lt;ol&gt;</span>
+                <span class="tag-pill">&lt;li&gt;</span>
+                <span class="tag-pill">&lt;dl&gt; &lt;dt&gt; &lt;dd&gt;</span>
+                <span class="tag-pill">&lt;table&gt;</span>
+                <span class="tag-pill">&lt;tr&gt; &lt;th&gt; &lt;td&gt;</span>
+                <span class="tag-pill">&lt;form&gt;</span>
+                <span class="tag-pill">&lt;input&gt;</span>
+                <span class="tag-pill">&lt;button&gt;</span>
+                <span class="tag-pill">&lt;textarea&gt;</span>
+                <span class="tag-pill">&lt;select&gt;</span>
+                <span class="tag-pill">&lt;label&gt;</span>
+                <span class="tag-pill">&lt;header&gt;</span>
+                <span class="tag-pill">&lt;nav&gt;</span>
+                <span class="tag-pill">&lt;main&gt;</span>
+                <span class="tag-pill">&lt;section&gt;</span>
+                <span class="tag-pill">&lt;article&gt;</span>
+                <span class="tag-pill">&lt;aside&gt;</span>
+                <span class="tag-pill">&lt;footer&gt;</span>
+                <span class="tag-pill">&lt;figure&gt;</span>
+                <span class="tag-pill">&lt;video&gt;</span>
+                <span class="tag-pill">&lt;audio&gt;</span>
+                <span class="tag-pill">&lt;iframe&gt;</span>
+                <span class="tag-pill">&lt;br&gt;</span>
+                <span class="tag-pill">&lt;hr&gt;</span>
+                <span class="tag-pill">&lt;strong&gt;</span>
+                <span class="tag-pill">&lt;em&gt;</span>
+                <span class="tag-pill">&lt;code&gt;</span>
+                <span class="tag-pill">&lt;pre&gt;</span>
+                <span class="tag-pill">&lt;blockquote&gt;</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+    <div style="text-align:center; color: var(--muted); font-family:'Fira Code',monospace; font-size:0.82rem;">
+        HTML Full Notes &nbsp;•&nbsp; All 19 Chapters &nbsp;•&nbsp; Complete Reference
+    </div>
+
+</div>
+</body>
+</html>
