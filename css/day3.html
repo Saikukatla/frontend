@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Background Properties</title>
+    <style>
+        .container{
+            /* background-color:darkcyan; */
+            /* background-image:url('https://png.pngtree.com/thumb_back/fh260/background/20230415/pngtree-website-technology-line-dark-background-image_2344719.jpg');
+            background-size: cover; */
+            /* background-repeat: no-repeat;
+            background-attachment:fixed;
+            background-position: center; */
+            background: linear-gradient(to right, plum , cornflowerblue, darkblue, skyblue);
+            color: white;
+            height: 100vh;
+            text-align: center;
+        }
+        h1{
+            font-family:Arial;
+            font-weight: 500;
+            font-style: oblique;
+            text-transform: capitalize;
+            text-shadow: 32px 32px 2px black;
+        }
+        .text{
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .size{
+            font-size: 20px;
+        }
+        .watch-section{
+            background-color: rgba(0, 0, 0, 0.5);
+            height:100px;
+            width: 30%;
+        }
+        .downlaod-section{
+            background-color: rgba(0, 0, 0, 0.5);
+            height:100px;
+            width: 30%;
+            
+        }
+        #join-section{
+            background-color: rgba(0, 0, 0, 0.5);
+            height: 100px;
+            width: 100%;
+        }
+
+        /* ==================== PSEUDO-ELEMENTS ==================== */
+        
+        /* 
+        ::before - Inserts content BEFORE an element's content
+        Used to add decorative elements, icons, or text before any element
+        */
+        .text::before{
+            content: "★ ";
+            color: gold;
+            font-size: 20px;
+        }
+
+        /* 
+        ::after - Inserts content AFTER an element's content
+        Used to add decorative elements, icons, or text after any element
+        */
+        .text::after{
+            content: " - Enjoy Watching!";
+            color: lightgreen;
+            font-style: italic;
+        }
+
+        /* 
+        ::first-line - Styles the FIRST LINE of a block-level element
+        Useful for creating drop caps or highlighting the first line
+        */
+        p::first-line{
+            color: lightyellow;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* 
+        ::first-letter - Styles the FIRST LETTER of a block-level element
+        Commonly used for creating decorative drop caps
+        */
+        p::first-letter{
+            font-size: 40px;
+            float: left;
+            margin-right: 8px;
+            color: orange;
+            font-weight: bold;
+        }
+
+        /* 
+        ::selection - Styles the portion of an element that is selected by the user
+        Works when user highlights text with mouse
+        */
+        ::selection{
+            background-color: yellow;
+            color: red;
+        }
+
+        /* 
+        ::marker - Styles the marker box of a list item
+        This includes bullets, numbers, or other markers in <li> elements
+        */
+        ul li::marker{
+            color: gold;
+            font-size: 20px;
+        }
+
+        ol li::marker{
+            color: cornflowerblue;
+            font-weight: bold;
+        }
+
+        /* 
+        ::placeholder - Styles the placeholder text in input/textarea elements
+        Useful for customizing the appearance of hint text
+        */
+        input::placeholder{
+            color: lightgray;
+            font-style: italic;
+        }
+
+        /* 
+        ::cue - Styles WebVTT cues (subtitles/captions in video/audio)
+        Used for styling subtitles in media elements
+        */
+        ::cue{
+            color: yellow;
+            background-color: black;
+        }
+
+        /* 
+        ::file-selector-button - Styles the button part of an input type="file"
+        */
+        input[type="file"]::file-selector-button{
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Welcome To Prime Video</h1>
+    <p class="text">Join Prime to watch the latest movies, TV shows and award-winning 
+        Amazon Originals.
+    </p>
+    <button>Sign In To Join Prime</button>
+    <section id="join-section">
+        <div class="watch-section">
+            <h2>Watch Movies Online</h2>
+            <p class="size">Customers can subscribe to get access</p>
+        </div>
+        <div class="downlaod-section">
+            <h2>Download and Watch Movies</h2>
+            <p class="size">variety of premium and specialty content</p>
+        </div>
+    </section>
+</body>
+</html>
