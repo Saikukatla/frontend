@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        body{
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(13, 74, 74);
+        }
+        .main{
+            background-color: rgb(74, 24, 24);
+            height: 400px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .box{
+            height: 300px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo{
+            color: white;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        input{
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .login-in{
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgb(13, 74, 74);
+            color:white ;
+        }
+        .or{
+           display:flex ;
+           justify-content:center ;
+           align-items:center ;
+           gap :10px ;
+           margin-top :10px ;
+           
+        }
+        .or span{
+           width :100px ;
+           height :1px ;
+           background-color :white ;
+           
+        }
+        .facebook{
+           color :white ;
+           text-decoration:none ;
+           margin-top :10px ;
+           
+        }
+        .forgot{
+           color :white ;
+           text-decoration:none ;
+           margin-top :10px ;
+           
+        }
+        .sign-up{
+           display:flex ;
+           justify-content:center ;
+           align-items:center ;
+           gap :5px ;
+           
+           
+        }
+        
+           
+           
+        
+    </style>
+    
+</head>
+<body>
+    <div class="main">
+        <div class="box">
+            <h1 class="logo">Instagram</h1>
+            <input type="text" placeholder="Phone Number, username, or email"/><br>
+            <input type="password" placeholder="password"/><br>
+            <button class="login-in">Log In</button>
+            <div class="or">
+                <span></span>
+                <p>OR</p>
+                <span></span>
+            </div>
+            <a href="#" class="facebook">Login with facebook</a>
+            <a href="#" class="forgot">Forgot Password</a>
+        </div>
+        <div class="sign-up">
+            <p>Don't have an account?</p>
+            <a href="#" class="sing-uo-text">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

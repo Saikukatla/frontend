@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <style>
+        body{
+            height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: lightcyan;
+        }
+        form{
+            background-color: white;
+            width: 400px;
+            padding: 20px;
+            margin: 50px auto;
+            border-radius: 10px;
+            align-items: center;
+        }
+        h2{
+            text-align: center;
+        }
+        label{
+            display: inline-block;
+            width: 120px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"]
+        {
+            width: 200px;
+            padding: 5px;
+            border-radius: 5px;
+            border:1px solid #ccc ;
+        }
+        button{
+            width: 100%;
+            padding: 10px;
+            background-color: black;
+            color:white ;
+            border:none ;
+            border-radius: 5px;
+            cursor:pointer ;
+        }
+        .gender-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>sign up form</h2>
+    <form><div>
+        <label>username</label>
+        <input type="text" placeholder="enter username">
+        <br><br>
+        </div>
+        <div>
+        <label>email</label>
+        <input type="email" placeholder="enter email">
+        <br><br>
+        </div>
+        
+        
+        <div>
+            <label>gender:</label>
+            <div class="gender-group">
+                <input type="radio" name="gender" value="male" id="male">
+                <label for="male">Male</label>
+                <input type="radio" name="gender" value="female" id="female">
+                <label for="female">Female</label>
+            </div>
+        </div>
+        
+        <div>
+        <label>phone number</label>
+        <input type="tel" placeholder="enter phone number">
+        <br><br>
+        </div>
+        <div>
+        <label>password</label>
+        <input type="password" placeholder="enter password">
+        <br><br>
+        </div>
+        
+        <div>
+        <button type="submit">sign up</button>
+        </div>
+
+
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transforms Animations</title>
+    <style>
+        body{
+            height: 120vh;
+            background-color: darkblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            padding: 10px;
+        }
+        .container{
+            height: 100vh;
+            width: 20%;
+            border: 1px solid #dbdbdb;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 5px;
+        }
+        .translate{
+            background-color: blueviolet;
+            height: 150px;
+            width: 150px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .translate:hover{
+            transform: translateY(-40px);
+        }
+        .rotate{
+            background-color: cadetblue;
+            height: 150px;
+            width: 150px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .rotate:hover{
+            transform: rotate(55deg);
+            height: 100px;
+            width: 100px;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .rotateX{
+            background-color: chartreuse;
+            height: 150px;
+            width: 150px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .rotateX:hover{
+            transform: rotateY(45deg);
+        }
+        .scale{
+            background-color: brown;
+            height: 150px;
+            width: 150px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .scale:hover{
+            transform: scale(0.3);
+        }
+        .skew{
+            background-color: plum;
+            height: 150px;
+            width: 150px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .skew:hover{
+            transform: skew(15deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="translate"></div>
+        <div class="rotate"></div>
+        <div class="rotateX"></div>
+        <div class="scale"></div>
+        <div class="skew"></div>
+    </div>
+</body>
+</html>

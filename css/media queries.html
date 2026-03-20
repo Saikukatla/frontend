@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>media queries</title>
+    <style>
+        body{
+            background-color: aquamarine;
+            height:100px;
+            display: flex;
+            justify-content: center;
+            margin:10px;
+            
+        }
+        h1{
+            color: bisque;
+            font-size: 25px;
+            font-weight: bold;
+            align-items: center;
+
+        }
+        p{
+            font-size: 15px;
+            color: blanchedalmond;
+
+        }
+        h2{
+            color: chocolate;
+            font-size: 20px;
+
+        }
+        @media(max-width:576px){
+            h3{
+                font-size: 18px;
+                color: blue;
+
+            }
+            p{
+                font-size: 13px;
+                color: brown;
+            }
+
+        }
+        @media(min-width:768px) and (max-width:992px){
+            body{
+                background-color: lightblue;
+            }
+            h1{
+                font-size: 28px;
+                color: blueviolet;
+            }
+            h3{
+                font-size: 20px;
+                color: blue;
+
+            }
+            p{
+                font-size: 15px;
+                color: brown;
+            }
+            button{
+                background-color: burlywood;
+                border:none;
+                padding: 3px;
+                width:20%;
+            }
+
+        }
+            
+    </style>
+</head>
+<body>
+    <h1>WATCH BALAYYA NARASHIMA</h1>
+    <H2>on miraj cinema's</H2>
+    <p>get ticket price from RS.200/-</p>
+    <button>BOOK NOW</button>
+</body>
+</html>

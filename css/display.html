@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display properties</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100vh;
+            
+        }
+        .container{
+            border:1px solid black;
+            padding:20px;
+            margin-bottom: 10px;
+        }
+        .box{
+            margin:10px;
+            padding:10px;
+            background-color: lightblue;
+            border:1px solid black;
+        }
+        .block{
+            height:50px;
+            width: 200px;
+            
+        }
+        .inline{
+            height:50px;
+            width: 200px;
+            display: inline;
+        }
+        .inline-block{
+            height:50px;
+            width: 200px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Display:block</h1>
+    <div class = "container">
+        <div class = "box block">Block1</div>
+        <div class = "box block">Block2</div>
+        <div class = "box block">Block3</div>
+        
+    </div>
+    <h1>Display:inline</h1>
+    <div class = "container">
+        <div class = "box inline">Inline1</div>
+        <div class = "box inline">Inline2</div>
+        <div class = "box inline">Inline3</div> 
+    </div>
+    <h1>Display:inline-block</h1>
+    <div class = "container">
+        <div class = "box inline-block">Inline-Block1</div>
+        <div class = "box inline-block">Inline-Block2</div>
+        <div class = "box inline-block">Inline-Block3</div>
+    </div>
+    
+
+</body>
+</html>
