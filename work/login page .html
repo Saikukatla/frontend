@@ -6,104 +6,91 @@
     <title>Instagram Clone</title>
     <style>
         body{
+            background-color: #fafafa;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgb(13, 74, 74);
-        }
-        .main{
-            background-color: rgb(74, 24, 24);
-            height: 400px;
-            width: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            font-family: Arial, Helvetica, sans-serif;
         }
         .box{
-            height: 300px;
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            width: 250px;
         }
         .logo{
-            color: white;
-            font-family:Arial, Helvetica, sans-serif;
+            font-family: cursive;
+            font-size: 25px;
         }
         input{
-            margin-top: 10px;
+            margin: 3px;
             padding: 10px;
-            border-radius: 5px;
+            width: 75%;
+            background-color: #fafafa;
+            border: 1px solid #dbdbdb;
         }
-        .login-in{
-            margin-top: 10px;
-            padding: 10px;
+        button{
+            width: 85%;
+            border: none;
             border-radius: 5px;
-            background-color: rgb(13, 74, 74);
-            color:white ;
+            padding: 5px;
+            margin-top: 3px;
+            background-color: #0095f6;
         }
         .or{
-           display:flex ;
-           justify-content:center ;
-           align-items:center ;
-           gap :10px ;
-           margin-top :10px ;
-           
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
-        .or span{
-           width :100px ;
-           height :1px ;
-           background-color :white ;
-           
+        .or p{
+            font-size: 14px;
+            color: grey;
+        }
+        span{
+            flex: 1;
+            border-top: 1px solid #dbdbdb;
+            height: 1px;
         }
         .facebook{
-           color :white ;
-           text-decoration:none ;
-           margin-top :10px ;
-           
+            text-decoration: none;
+            font-size: 16px;
+            color: #385185;
         }
         .forgot{
-           color :white ;
-           text-decoration:none ;
-           margin-top :10px ;
-           
+            text-decoration: none;
+            font-size: 15px;
+            color: #3751ff;
         }
         .sign-up{
-           display:flex ;
-           justify-content:center ;
-           align-items:center ;
-           gap :5px ;
-           
-           
+            background-color: #fff;
+            border: 1px solid #dbdbdb;
         }
-        
-           
-           
-        
     </style>
-    
 </head>
 <body>
     <div class="main">
         <div class="box">
             <h1 class="logo">Instagram</h1>
-            <input type="text" placeholder="Phone Number, username, or email"/><br>
+            <input type="text" placeholder="Phone number, username, or email"/>
             <input type="password" placeholder="password"/><br>
-            <button class="login-in">Log In</button>
+            <button class="log-in">Log in</button>
             <div class="or">
                 <span></span>
                 <p>OR</p>
                 <span></span>
             </div>
-            <a href="#" class="facebook">Login with facebook</a>
-            <a href="#" class="forgot">Forgot Password</a>
+            <a href="#" class="facebook">Login with facebook</a><br>
+            <a href="#" class="forgot">Forgot Password?</a>
         </div>
         <div class="sign-up">
             <p>Don't have an account?</p>
-            <a href="#" class="sing-uo-text">Sign Up</a>
+            <a href="#" class="sing-up-text">Sign Up</a>
         </div>
     </div>
 </body>

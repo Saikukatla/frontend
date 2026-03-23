@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animations in css</title>
+    <style>
+        body{
+            height:100vh;
+            background-color: darkcyan;
+            font-family: Arial, Helvetica, sans-serif;
+
+        }
+        h1{
+            text-align: center;
+            color: bisque;
+            animation:color-change 2s ease-in 0.1s 2 ;
+        }
+        @keyframes color-change{
+            0%{
+                color: bisque;
+            }
+            100%{
+                color: black;
+            }
+            
+        }
+        .box{
+            background-color: lightcoral;
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            position:relative;
+            animation:position-change 4s ease-in 0.1s 5 ;
+        }
+        @keyframes position-change {
+            0%{
+                left:0px;
+                top:0px;
+
+            }
+            25%{
+                position: relative;
+                left: 80%;
+                top:0%;
+                background-color: lightgray;
+                border-radius: 50%;
+            }
+            50%{
+               position:relative;
+                left: 80%;
+                top: 60%;
+                background-color: lightgreen;
+                border-radius: 50%;
+
+            }
+            75%{
+                position: relative;
+                left:0%;
+                top:60%;
+
+            }
+            100%{
+                position: relative;
+                left: 0px;
+                top: 0px;
+
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS ANIMATIONS</h1>
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/5968/5968267.png" alt="html" width="100px" height="100px" style="margin: 50px;">
+ 
+    </div>
+    
+</body>
+</html>

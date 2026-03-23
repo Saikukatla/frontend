@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOADER</title>
+</head>
+<style>
+    body{
+        background-color: aquamarine;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .load{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        border: 5px solid rgb(13, 74, 74);
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+
+    }
+    @keyframes spin {
+        100%{
+            transform: rotate(360deg);
+        }
+
+        
+    }
+</style>
+<body>
+    <div class="load">
+
+    </div>
+    
+</body>
+</html>
