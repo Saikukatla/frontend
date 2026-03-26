@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paytm Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        body{
+            background-color: #fafafa;
+            height:100vh;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        .navbar{
+            background-color:#fff;
+            padding:10px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .navbar ul{
+            display:flex;
+            list-style-type:none;
+            gap:20px;
+        }
+        .navbar ul li{
+            font-size:15px;
+            color:#000;
+            font-weight:bold;
+        }
+        .navbar ul li:hover{
+            color:#00baf2;
+        }
+        .navbar h3{
+            color:#00baf2;
+        }
+        .navbar button{
+            background-color:#00baf2;
+            color:#fff;
+            font-size:12px;
+            width:8%;
+            border:none;
+            border-radius:5px;
+            padding:5px;
+        }
+        #download{
+            padding:30px 50px;
+            background: color #f5f9ff;
+        }
+        #download h1{
+            font-size:30px;
+            padding-bottom:10px;
+        }
+        #download p{
+            font-size:15px;
+            padding-bottom:10px;
+        }
+        #download button{
+            width:20%;
+            background-color:#000;
+            border-radius:20px;
+            padding:10px;
+            color:#fff;
+            border:none;
+            cursor:pointer;
+        }
+        #services{
+            padding:20px 30px;
+            background-color:#00baf2
+        }
+        #services h3{
+            color:#fff;
+            font-size:20px;
+            padding-bottom:10px;
+        }
+        .items-container{
+            display:grid;
+            grid-template-columns:repeat(5,1fr);
+            gap:40px;
+            margin-bottom:20px;
+        }
+        .item{
+            background-color:#fff;
+            padding:10px;
+            border-radius:10px;
+            text-align:center;
+        }
+        #upi{
+            padding:25px 30px;
+        }
+        #upi h3{
+            font-size:25px;
+            padding-bottom:10px;
+        }
+        #upi p{
+            font-size:12px;
+            padding-bottom:10px;
+        }
+        #wallet{
+            background-color:#002970;
+            padding:50px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            color:white;
+        }
+        #wallet img{
+            width:250px;
+        }
+        #wallet h3{
+            padding-bottom:5px;
+        }
+        #footer{
+            padding:30px 20px;
+        }
+        .footer-top{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap:40px;
+            border-bottom:1px solid #00baf2;
+        
+        }
+        .footer-top ul{
+            list-style-type: none;
+            padding-bottom: 10px;
+        }
+        .footer-top h4{
+            font-size: 12px;
+            font-weight: bold;
+            padding-bottom: 10px;
+        }
+        .footer-top li{
+            font-size: 8px;
+            color: grey;
+            padding-bottom: 10px;
+        }
+        .footer-bottom{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .footer-bottom{
+            font-size:12px ;
+            font-weight:bold ;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h3 class="logo">paytm</h3>
+        <ul class="nav-items">
+            <li>Consumetrs</li>
+            <li>Business</li>
+            <li>Company</li>
+            <li>Career</li>
+        </ul>
+        <button><i class="fa-solid fa-user"></i>Sign In</button>
+    </nav>
+    <section id="download">
+        <h1>India's Most-loved payments App</h1>
+        <p>Recharge,pay Bills,Send money & More</p>
+        <button>Download Paytm app</button>
+    </section>
+    <section id="services">
+        <h3>Recharge & Pay Bills</h3>
+        <div class="items-container">
+            <div class="item">📱Mobile<br></div>
+            <div class="item">💡Electricity<br></div>
+            <div class="item">📡DTH<br></div>
+            <div class="item">🏠Rent<br></div>
+            <div class="item">⛽Gas<br></div>
+        </div>
+    </section>
+    <section id="upi">
+        <h3>paytm UPI</h3>
+        <p>Instant,Secure & fast payments directly from your bank</p>
+    </section>
+    <section id="wallet">
+        <div class="wallet-left">
+            <h3>paytm Wallet & UPI</h3>
+            <p>send money,scan & pay instantly</p>
+        </div>
+        <div class="wallet-right">
+            <img src="https://assetscdn1.paytm.com/images/catalog/view_item/728701/1618577020961.png"
+            class="wallet-img" alt="not-found">
+        </div>
+    </section>
+    <section id="footer">
+        <div class="footer-top">
+            <div class="col">
+                <h4>Paytm</h4>
+                <ul>
+                    <li>About Us</li>
+                    <li>Careers</li>
+                    <li>Blogs</li>
+                </ul>
+            </div>
+             <div class="col">
+                <h4>Services</h4>
+                <ul>
+                    <li>Recharge</li>
+                    <li>UPI</li>
+                    <li>Wallet</li>
+                </ul>
+            </div>
+             <div class="col">
+                <h4>Support</h4>
+                <ul>
+                    <li>Help Center</li>
+                    <li>FAQ</li>
+                    <li>Security</li>
+                </ul>
+            </div>
+             <div class="col">
+                <h4>Legal</h4>
+                <ul>
+                    <li>Privacy & policy</li>
+                    <li>Terms & Conditions</li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy 2026 Paytm Clone || All Rights Reserved.</p>
+            <span>🌐 💻 📔 📷</span>
+        </div>
+    </section>
+</body>
+</html>
