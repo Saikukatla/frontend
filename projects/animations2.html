@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vintage Motors</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0806;
+  font-family: 'Cormorant Garamond', serif;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: #c9a84c;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 40px; height: 40px;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+}
+
+/* ── SLIDER WRAPPER ── */
+.slider-wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── SLIDER TRACK ── */
+.slider {
+  display: flex;
+  width: max-content;
+  height: 100vh;
+  animation: autoScroll 80s linear infinite;
+  will-change: transform;
+}
+
+.slider:hover {
+  animation-play-state: paused;
+}
+
+/* ── EACH SLIDE = FULL VIEWPORT ── */
+.slide {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 60%;
+  display: block;
+  filter: contrast(1.1) saturate(0.8) brightness(0.9);
+  transform: scale(1.04);
+  transition: transform 8s ease;
+}
+
+/* slow ken-burns per slide when slider is paused */
+.slider:hover .slide img {
+  transform: scale(1.1);
+}
+
+/* ── CINEMATIC OVERLAY ── */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(4,2,1,0.97) 0%,
+    rgba(4,2,1,0.65) 28%,
+    rgba(4,2,1,0.15) 55%,
+    rgba(4,2,1,0.35) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* vignette edges */
+.slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(4,2,1,0.7) 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* ── INFO BLOCK ── */
+.info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0 5vw 4.5vh;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* big ghost number */
+.ghost-num {
+  position: absolute;
+  right: 4vw;
+  bottom: 3vh;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(6rem, 16vw, 13rem);
+  font-weight: 700;
+  color: rgba(201,168,76,0.07);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  user-select: none;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.era-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.era-line {
+  width: 40px; height: 1px;
+  background: #c9a84c;
+}
+
+.era-text {
+  font-size: 0.68rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: #c9a84c;
+  font-family: 'Cormorant Garamond', sans-serif;
+  font-weight: 600;
+}
+
+.car-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+  font-weight: 700;
+  color: #f5f0e8;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.015em;
+}
+
+.car-name em {
+  font-style: italic;
+  color: #c9a84c;
+}
+
+.car-quote {
+  font-size: clamp(0.85rem, 1.2vw, 1.1rem);
+  font-style: italic;
+  color: rgba(245,240,232,0.45);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  margin-bottom: 2.5vh;
+}
+
+/* ── SPECS GRID ── */
+.specs {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-top: 1px solid rgba(201,168,76,0.15);
+  padding-top: 2vh;
+}
+
+.spec {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-right: 2.5vw;
+  margin-right: 2.5vw;
+  border-right: 1px solid rgba(201,168,76,0.12);
+}
+
+.spec:last-child {
+  border-right: none;
+}
+
+.spec-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.6);
+  font-family: 'Cormorant Garamond', sans-serif;
+  font-weight: 600;
+}
+
+.spec-value {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+  color: #f5f0e8;
+  font-weight: 400;
+}
+
+/* ── TOP NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: clamp(1rem, 2.5vh, 2rem) 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(4,2,1,0.8) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nav-brand strong {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  color: #c9a84c;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.nav-brand small {
+  font-size: 0.58rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.3);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.pause-badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 0.35rem 0.8rem;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.slider:hover ~ * .pause-badge,
+.slider-wrapper:hover .pause-badge {
+  opacity: 1;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar {
+  position: fixed;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, #c9a84c, #e8c96a, #c9a84c);
+  animation: progressAnim 80s linear infinite;
+  z-index: 200;
+  transform-origin: left;
+}
+
+.slider:hover ~ .progress-bar {
+  animation-play-state: paused;
+}
+
+/* ── SLIDE COUNTER ── */
+.counter {
+  position: fixed;
+  right: 4vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: none;
+}
+
+.counter-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cdot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.25);
+  transition: background 0.3s, transform 0.3s;
+}
+
+/* ── SCROLL ARROW ── */
+.scroll-arrow {
+  position: fixed;
+  bottom: 3.5vh;
+  right: 5vw;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.scroll-arrow span {
+  font-size: 0.58rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.4);
+}
+
+.arrow-line {
+  width: 50px; height: 1px;
+  background: linear-gradient(to right, rgba(201,168,76,0.4), transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.arrow-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #c9a84c;
+  animation: arrowFlow 2s ease-in-out infinite;
+}
+
+/* ── KEYFRAMES ── */
+@keyframes autoScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes progressAnim {
+  from { width: 0vw; }
+  to   { width: 100vw; }
+}
+
+@keyframes arrowFlow {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- TOP NAV -->
+<div class="nav">
+  <div class="nav-brand">
+    <strong>Vintage Motors</strong>
+    <small>Automotive Heritage · 1900–1975</small>
+  </div>
+  <div class="nav-right">
+    <div class="pause-badge" id="pauseBadge">⏸ Paused</div>
+  </div>
+</div>
+
+<!-- SLIDER -->
+<div class="slider-wrapper">
+<div class="slider" id="slider">
+
+  <!-- ══════════ SLIDE 1 — Chevrolet Bel Air 1957 ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/1957_Chevrolet_Bel_Air_Hardtop_%28Les_chauds_vendredis_%2713%29.jpg/1280px-1957_Chevrolet_Bel_Air_Hardtop_%28Les_chauds_vendredis_%2713%29.jpg" alt="1957 Chevrolet Bel Air"
+         onerror="this.src='https://images.unsplash.com/photo-1566024287286-457247b70310?w=1400&q=80'">
+    <div class="ghost-num">01</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1957 · American Classic</div></div>
+      <div class="car-name">Chevrolet <em>Bel Air</em></div>
+      <div class="car-quote">"The crown jewel of the chrome era — rolling art on four wheels"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">283 cu in V8</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">283 bhp</div></div>
+        <div class="spec"><div class="spec-label">Torque</div><div class="spec-value">290 lb·ft</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Detroit, USA</div></div>
+        <div class="spec"><div class="spec-label">Body</div><div class="spec-value">2-Door Hardtop</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">110 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 2 — Jaguar E-Type 1961 ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Jaguar_E-Type_Series_1_3.8_Roadster_%281961%29_%2835124196610%29.jpg/1280px-Jaguar_E-Type_Series_1_3.8_Roadster_%281961%29_%2835124196610%29.jpg" alt="Jaguar E-Type 1961"
+         onerror="this.src='https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1400&q=80'">
+    <div class="ghost-num">02</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1961 · British Legend</div></div>
+      <div class="car-name">Jaguar <em>E-Type</em></div>
+      <div class="car-quote">"The most beautiful car ever made" — Enzo Ferrari, 1961</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.8L Inline-6</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">265 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.9 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Coventry, England</div></div>
+        <div class="spec"><div class="spec-label">Weight</div><div class="spec-value">1,118 kg</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">150 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 3 — Mercedes 300SL Gullwing ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/1955_Mercedes-Benz_300SL_Gullwing_Coupe_%2836030576871%29.jpg/1280px-1955_Mercedes-Benz_300SL_Gullwing_Coupe_%2836030576871%29.jpg" alt="Mercedes 300SL"
+         onerror="this.src='https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=1400&q=80'">
+    <div class="ghost-num">03</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1954 · German Precision</div></div>
+      <div class="car-name">Mercedes-Benz <em>300SL Gullwing</em></div>
+      <div class="car-quote">"First production car with direct fuel injection — a technological marvel"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.0L Inline-6 DFI</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">215 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">8.8 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Stuttgart, Germany</div></div>
+        <div class="spec"><div class="spec-label">Doors</div><div class="spec-value">Gullwing</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">161 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 4 — Ford Mustang 1965 ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/1965_Ford_Mustang_fastback_2%2B2.jpg/1280px-1965_Ford_Mustang_fastback_2%2B2.jpg" alt="1965 Ford Mustang"
+         onerror="this.src='https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1400&q=80'">
+    <div class="ghost-num">04</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1965 · Pony Car Pioneer</div></div>
+      <div class="car-name">Ford <em>Mustang Fastback</em></div>
+      <div class="car-quote">"The car that started a revolution — one million sold in 18 months"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">4.7L V8 Hi-Po</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">271 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">7.5 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Dearborn, USA</div></div>
+        <div class="spec"><div class="spec-label">Transmission</div><div class="spec-value">4-Speed Manual</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">120 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 5 — Ferrari 250 GTO ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/1963_Ferrari_250_GTO_%2836036069590%29.jpg/1280px-1963_Ferrari_250_GTO_%2836036069590%29.jpg" alt="Ferrari 250 GTO"
+         onerror="this.src='https://images.unsplash.com/photo-1567636788276-40a47795ba4d?w=1400&q=80'">
+    <div class="ghost-num">05</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1962 · Italian Masterpiece</div></div>
+      <div class="car-name">Ferrari <em>250 GTO</em></div>
+      <div class="car-quote">"Most valuable car ever sold — $70 million at auction, 2018"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.0L V12 DOHC</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">302 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.1 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Maranello, Italy</div></div>
+        <div class="spec"><div class="spec-label">Units Built</div><div class="spec-value">39 only</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">174 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 6 — Cadillac Eldorado 1959 ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/1959_Cadillac_Eldorado_Biarritz_%2836032600475%29.jpg/1280px-1959_Cadillac_Eldorado_Biarritz_%2836032600475%29.jpg" alt="Cadillac Eldorado 1959"
+         onerror="this.src='https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=1400&q=80'">
+    <div class="ghost-num">06</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1959 · Chrome Americana</div></div>
+      <div class="car-name">Cadillac <em>Eldorado Biarritz</em></div>
+      <div class="car-quote">"The pinnacle of American opulence — tailfins that kissed the sky"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">390 cu in V8</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">345 bhp</div></div>
+        <div class="spec"><div class="spec-label">Torque</div><div class="spec-value">435 lb·ft</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Detroit, USA</div></div>
+        <div class="spec"><div class="spec-label">Body</div><div class="spec-value">Convertible</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">120 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 7 — Aston Martin DB5 ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Aston_Martin_DB5_silver.jpg/1280px-Aston_Martin_DB5_silver.jpg" alt="Aston Martin DB5"
+         onerror="this.src='https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=1400&q=80'">
+    <div class="ghost-num">07</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1963 · British Elegance</div></div>
+      <div class="car-name">Aston Martin <em>DB5</em></div>
+      <div class="car-quote">"James Bond's eternal chariot — the most famous car in cinema history"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.9L Inline-6</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">282 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">8.1 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Newport Pagnell, UK</div></div>
+        <div class="spec"><div class="spec-label">Gearbox</div><div class="spec-value">ZF 5-Speed</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">148 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 8 — Lamborghini Miura ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Lamborghini_Miura_2_%28Khyttan%29.jpg/1280px-Lamborghini_Miura_2_%28Khyttan%29.jpg" alt="Lamborghini Miura"
+         onerror="this.src='https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=1400&q=80'">
+    <div class="ghost-num">08</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1966 · Italian Fury</div></div>
+      <div class="car-name">Lamborghini <em>Miura P400</em></div>
+      <div class="car-quote">"The world's first true mid-engine supercar — born to break limits"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.9L V12 Mid</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">350 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.7 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Sant'Agata, Italy</div></div>
+        <div class="spec"><div class="spec-label">Layout</div><div class="spec-value">Transverse Mid</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">171 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 9 — Porsche 356 Speedster ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Porsche_356_Speedster_1955_%2836889679821%29.jpg/1280px-Porsche_356_Speedster_1955_%2836889679821%29.jpg" alt="Porsche 356 Speedster"
+         onerror="this.src='https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1400&q=80'">
+    <div class="ghost-num">09</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1955 · Stuttgart Soul</div></div>
+      <div class="car-name">Porsche <em>356 Speedster</em></div>
+      <div class="car-quote">"Where the sports car culture of a generation was born — pure, light, alive"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">1.5L Flat-4 Air</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">70 bhp</div></div>
+        <div class="spec"><div class="spec-label">Weight</div><div class="spec-value">590 kg</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Stuttgart, Germany</div></div>
+        <div class="spec"><div class="spec-label">Units</div><div class="spec-value">1,234 built</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">100 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SLIDE 10 — Dodge Charger R/T 1969 ══════════ -->
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Dodge_Charger_1969.jpg/1280px-Dodge_Charger_1969.jpg" alt="1969 Dodge Charger"
+         onerror="this.src='https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1400&q=80'">
+    <div class="ghost-num">10</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1969 · Muscle Era</div></div>
+      <div class="car-name">Dodge <em>Charger R/T</em></div>
+      <div class="car-quote">"The General Lee — the most iconic muscle car ever to grace American asphalt"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">440 Magnum V8</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">375 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.0 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Highland Park, USA</div></div>
+        <div class="spec"><div class="spec-label">Torque</div><div class="spec-value">480 lb·ft</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">150 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DUPLICATE SET FOR SEAMLESS LOOP ══ -->
+
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/1957_Chevrolet_Bel_Air_Hardtop_%28Les_chauds_vendredis_%2713%29.jpg/1280px-1957_Chevrolet_Bel_Air_Hardtop_%28Les_chauds_vendredis_%2713%29.jpg" alt="1957 Chevrolet Bel Air" onerror="this.src='https://images.unsplash.com/photo-1566024287286-457247b70310?w=1400&q=80'">
+    <div class="ghost-num">01</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1957 · American Classic</div></div>
+      <div class="car-name">Chevrolet <em>Bel Air</em></div>
+      <div class="car-quote">"The crown jewel of the chrome era — rolling art on four wheels"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">283 cu in V8</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">283 bhp</div></div>
+        <div class="spec"><div class="spec-label">Torque</div><div class="spec-value">290 lb·ft</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Detroit, USA</div></div>
+        <div class="spec"><div class="spec-label">Body</div><div class="spec-value">2-Door Hardtop</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">110 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Jaguar_E-Type_Series_1_3.8_Roadster_%281961%29_%2835124196610%29.jpg/1280px-Jaguar_E-Type_Series_1_3.8_Roadster_%281961%29_%2835124196610%29.jpg" alt="Jaguar E-Type" onerror="this.src='https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1400&q=80'">
+    <div class="ghost-num">02</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1961 · British Legend</div></div>
+      <div class="car-name">Jaguar <em>E-Type</em></div>
+      <div class="car-quote">"The most beautiful car ever made" — Enzo Ferrari, 1961</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.8L Inline-6</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">265 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.9 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Coventry, England</div></div>
+        <div class="spec"><div class="spec-label">Weight</div><div class="spec-value">1,118 kg</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">150 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/1955_Mercedes-Benz_300SL_Gullwing_Coupe_%2836030576871%29.jpg/1280px-1955_Mercedes-Benz_300SL_Gullwing_Coupe_%2836030576871%29.jpg" alt="Mercedes 300SL" onerror="this.src='https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=1400&q=80'">
+    <div class="ghost-num">03</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1954 · German Precision</div></div>
+      <div class="car-name">Mercedes-Benz <em>300SL Gullwing</em></div>
+      <div class="car-quote">"First production car with direct fuel injection — a technological marvel"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.0L Inline-6 DFI</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">215 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">8.8 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Stuttgart, Germany</div></div>
+        <div class="spec"><div class="spec-label">Doors</div><div class="spec-value">Gullwing</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">161 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/1965_Ford_Mustang_fastback_2%2B2.jpg/1280px-1965_Ford_Mustang_fastback_2%2B2.jpg" alt="Ford Mustang" onerror="this.src='https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1400&q=80'">
+    <div class="ghost-num">04</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1965 · Pony Car Pioneer</div></div>
+      <div class="car-name">Ford <em>Mustang Fastback</em></div>
+      <div class="car-quote">"The car that started a revolution — one million sold in 18 months"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">4.7L V8 Hi-Po</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">271 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">7.5 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Dearborn, USA</div></div>
+        <div class="spec"><div class="spec-label">Transmission</div><div class="spec-value">4-Speed Manual</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">120 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/1963_Ferrari_250_GTO_%2836036069590%29.jpg/1280px-1963_Ferrari_250_GTO_%2836036069590%29.jpg" alt="Ferrari 250 GTO" onerror="this.src='https://images.unsplash.com/photo-1567636788276-40a47795ba4d?w=1400&q=80'">
+    <div class="ghost-num">05</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1962 · Italian Masterpiece</div></div>
+      <div class="car-name">Ferrari <em>250 GTO</em></div>
+      <div class="car-quote">"Most valuable car ever sold — $70 million at auction, 2018"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.0L V12 DOHC</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">302 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.1 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Maranello, Italy</div></div>
+        <div class="spec"><div class="spec-label">Units Built</div><div class="spec-value">39 only</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">174 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/1959_Cadillac_Eldorado_Biarritz_%2836032600475%29.jpg/1280px-1959_Cadillac_Eldorado_Biarritz_%2836032600475%29.jpg" alt="Cadillac Eldorado" onerror="this.src='https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=1400&q=80'">
+    <div class="ghost-num">06</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1959 · Chrome Americana</div></div>
+      <div class="car-name">Cadillac <em>Eldorado Biarritz</em></div>
+      <div class="car-quote">"The pinnacle of American opulence — tailfins that kissed the sky"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">390 cu in V8</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">345 bhp</div></div>
+        <div class="spec"><div class="spec-label">Torque</div><div class="spec-value">435 lb·ft</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Detroit, USA</div></div>
+        <div class="spec"><div class="spec-label">Body</div><div class="spec-value">Convertible</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">120 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Aston_Martin_DB5_silver.jpg/1280px-Aston_Martin_DB5_silver.jpg" alt="Aston Martin DB5" onerror="this.src='https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=1400&q=80'">
+    <div class="ghost-num">07</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1963 · British Elegance</div></div>
+      <div class="car-name">Aston Martin <em>DB5</em></div>
+      <div class="car-quote">"James Bond's eternal chariot — the most famous car in cinema history"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.9L Inline-6</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">282 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">8.1 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Newport Pagnell, UK</div></div>
+        <div class="spec"><div class="spec-label">Gearbox</div><div class="spec-value">ZF 5-Speed</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">148 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Lamborghini_Miura_2_%28Khyttan%29.jpg/1280px-Lamborghini_Miura_2_%28Khyttan%29.jpg" alt="Lamborghini Miura" onerror="this.src='https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?w=1400&q=80'">
+    <div class="ghost-num">08</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1966 · Italian Fury</div></div>
+      <div class="car-name">Lamborghini <em>Miura P400</em></div>
+      <div class="car-quote">"The world's first true mid-engine supercar — born to break limits"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">3.9L V12 Mid</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">350 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.7 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Sant'Agata, Italy</div></div>
+        <div class="spec"><div class="spec-label">Layout</div><div class="spec-value">Transverse Mid</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">171 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Porsche_356_Speedster_1955_%2836889679821%29.jpg/1280px-Porsche_356_Speedster_1955_%2836889679821%29.jpg" alt="Porsche 356" onerror="this.src='https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1400&q=80'">
+    <div class="ghost-num">09</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1955 · Stuttgart Soul</div></div>
+      <div class="car-name">Porsche <em>356 Speedster</em></div>
+      <div class="car-quote">"Where the sports car culture of a generation was born — pure, light, alive"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">1.5L Flat-4 Air</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">70 bhp</div></div>
+        <div class="spec"><div class="spec-label">Weight</div><div class="spec-value">590 kg</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Stuttgart, Germany</div></div>
+        <div class="spec"><div class="spec-label">Units</div><div class="spec-value">1,234 built</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">100 mph</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Dodge_Charger_1969.jpg/1280px-Dodge_Charger_1969.jpg" alt="Dodge Charger" onerror="this.src='https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1400&q=80'">
+    <div class="ghost-num">10</div>
+    <div class="info">
+      <div class="era-tag"><div class="era-line"></div><div class="era-text">1969 · Muscle Era</div></div>
+      <div class="car-name">Dodge <em>Charger R/T</em></div>
+      <div class="car-quote">"The General Lee — the most iconic muscle car ever to grace American asphalt"</div>
+      <div class="specs">
+        <div class="spec"><div class="spec-label">Engine</div><div class="spec-value">440 Magnum V8</div></div>
+        <div class="spec"><div class="spec-label">Power</div><div class="spec-value">375 bhp</div></div>
+        <div class="spec"><div class="spec-label">0–60 mph</div><div class="spec-value">6.0 sec</div></div>
+        <div class="spec"><div class="spec-label">Origin</div><div class="spec-value">Highland Park, USA</div></div>
+        <div class="spec"><div class="spec-label">Torque</div><div class="spec-value">480 lb·ft</div></div>
+        <div class="spec"><div class="spec-label">Top Speed</div><div class="spec-value">150 mph</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .slider -->
+</div><!-- end .slider-wrapper -->
+
+<!-- BOTTOM PROGRESS BAR -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- SCROLL ARROW -->
+<div class="scroll-arrow">
+  <span>Auto Scroll</span>
+  <div class="arrow-line"></div>
+</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top  = e.clientY + 'px';
+    }, 60);
+  });
+
+  // Pause badge
+  const slider = document.getElementById('slider');
+  const badge  = document.getElementById('pauseBadge');
+  slider.addEventListener('mouseenter', () => badge.style.opacity = '1');
+  slider.addEventListener('mouseleave', () => badge.style.opacity = '0');
+</script>
+</body>
+</html>

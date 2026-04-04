@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vintage Motors</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --rust: #b5401e;
+    --dark: #1a1410;
+    --charcoal: #2d2520;
+    --smoke: #8a7d6e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--dark);
+    font-family: 'Josefin Sans', sans-serif;
+    overflow-x: hidden;
+    color: var(--cream);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, #2e1f0e 0%, var(--dark) 70%);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(201,168,76,.04) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(201,168,76,.04) 60px);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    font-size: .7rem;
+    letter-spacing: .4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp .8s .3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    background: linear-gradient(135deg, var(--cream) 30%, var(--gold) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: fadeUp .9s .5s forwards;
+  }
+
+  .hero-sub {
+    font-size: .85rem;
+    letter-spacing: .25em;
+    color: var(--smoke);
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeUp .8s .8s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    color: var(--smoke);
+    font-size: .65rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp .6s 1.2s forwards;
+  }
+
+  .scroll-hint span { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: pulse 2s infinite; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    padding: 3.5rem 2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .section-label h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+
+  .section-label h2 em { color: var(--gold); font-style: italic; }
+
+  .section-label .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(201,168,76,.5), transparent);
+  }
+
+  /* ── SCROLLING TRACK ── */
+  .track-wrapper {
+    overflow: hidden;
+    position: relative;
+    padding: .5rem 0 1.5rem;
+  }
+
+  .track-wrapper::before,
+  .track-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 120px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .track-wrapper::before { left: 0; background: linear-gradient(to right, var(--dark), transparent); }
+  .track-wrapper::after  { right: 0; background: linear-gradient(to left, var(--dark), transparent); }
+
+  .track {
+    display: flex;
+    gap: 1.4rem;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* row directions */
+  .row-left  .track { animation: scrollLeft  var(--dur, 40s) linear infinite; }
+  .row-right .track { animation: scrollRight var(--dur, 36s) linear infinite; }
+
+  .track-wrapper:hover .track { animation-play-state: paused; }
+
+  /* ── CARD ── */
+  .card {
+    width: 280px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+    background: var(--charcoal);
+  }
+
+  .card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 24px 50px rgba(0,0,0,.7), 0 0 0 1px rgba(201,168,76,.25);
+    z-index: 5;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    filter: sepia(.2) contrast(1.1);
+    transition: filter .4s, transform .4s;
+  }
+
+  .card:hover .card-img { filter: sepia(0) contrast(1.2); transform: scale(1.06); }
+
+  .card-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2.5rem 1rem .9rem;
+    background: linear-gradient(to top, rgba(20,14,8,.97) 0%, rgba(20,14,8,.4) 60%, transparent 100%);
+  }
+
+  .card-year {
+    font-size: .6rem;
+    letter-spacing: .35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: .25rem;
+  }
+
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+
+  .card-tag {
+    display: inline-block;
+    margin-top: .4rem;
+    font-size: .58rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+
+  .badge-corner {
+    position: absolute;
+    top: .7rem; right: .7rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(201,168,76,.15);
+    border: 1px solid rgba(201,168,76,.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .6rem;
+    color: var(--gold);
+    letter-spacing: .05em;
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  .card:hover .badge-corner { opacity: 1; }
+
+  /* ── FEATURED STRIP ── */
+  .featured-strip {
+    margin: 1rem 2rem 2rem;
+    padding: 1.8rem 2rem;
+    border: 1px solid rgba(201,168,76,.15);
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(45,37,32,.8), rgba(26,20,16,.9));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .featured-strip p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--smoke);
+    max-width: 420px;
+    line-height: 1.7;
+  }
+
+  .featured-strip p em { color: var(--gold); font-style: normal; }
+
+  .btn-explore {
+    white-space: nowrap;
+    padding: .65rem 1.8rem;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: .72rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .25s, color .25s;
+    border-radius: 2px;
+  }
+
+  .btn-explore:hover { background: var(--gold); color: var(--dark); }
+
+  /* ── KEYFRAMES ── */
+  @keyframes scrollLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes scrollRight {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: .3; }
+    50%      { opacity: 1; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    font-size: .65rem;
+    letter-spacing: .3em;
+    color: var(--smoke);
+    text-transform: uppercase;
+    border-top: 1px solid rgba(201,168,76,.08);
+    margin-top: 1rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Est. 1900 — 1975</div>
+  <h1 class="hero-title">Vintage<br>Motors</h1>
+  <p class="hero-sub">A curated collection of automotive legends</p>
+  <div class="scroll-hint">Scroll <span></span></div>
+</section>
+
+<!-- ROW 1 — scroll left -->
+<div class="section-label">
+  <h2>American <em>Classics</em></h2>
+  <div class="line"></div>
+</div>
+
+<div class="track-wrapper row-left" style="--dur:45s">
+  <div class="track" id="row1"></div>
+</div>
+
+<!-- ROW 2 — scroll right -->
+<div class="section-label">
+  <h2>European <em>Icons</em></h2>
+  <div class="line"></div>
+</div>
+
+<div class="track-wrapper row-right" style="--dur:38s">
+  <div class="track" id="row2"></div>
+</div>
+
+<!-- ROW 3 — scroll left slower -->
+<div class="section-label">
+  <h2>Racing <em>Heritage</em></h2>
+  <div class="line"></div>
+</div>
+
+<div class="track-wrapper row-left" style="--dur:52s">
+  <div class="track" id="row3"></div>
+</div>
+
+<!-- FEATURED STRIP -->
+<div class="featured-strip">
+  <p>"Every <em>great car</em> is an extension of its era — a rolling sculpture that tells the story of its time."</p>
+  <button class="btn-explore">Explore Collection</button>
+</div>
+
+<footer>© Vintage Motors Gallery &nbsp;·&nbsp; Automotive Heritage Since 1900</footer>
+
+<script>
+const rows = {
+  row1: [
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/1957_Chevrolet_Bel_Air.jpg/640px-1957_Chevrolet_Bel_Air.jpg",
+      year: "1957", name: "Chevrolet Bel Air", tag: "American Classic"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/1964_Ford_Mustang.jpg/640px-1964_Ford_Mustang.jpg",
+      year: "1964", name: "Ford Mustang", tag: "Muscle Legend"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Cadillac_Eldorado_1959_%28cropped%29.jpg/640px-Cadillac_Eldorado_1959_%28cropped%29.jpg",
+      year: "1959", name: "Cadillac Eldorado", tag: "Chrome Era"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/1969_Dodge_Charger_R%2FT.jpg/640px-1969_Dodge_Charger_R%2FT.jpg",
+      year: "1969", name: "Dodge Charger R/T", tag: "Muscle Car"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Lincoln_Continental_1961_%28cropped%29.jpg/640px-Lincoln_Continental_1961_%28cropped%29.jpg",
+      year: "1961", name: "Lincoln Continental", tag: "Presidential"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/1955_Ford_Thunderbird.jpg/640px-1955_Ford_Thunderbird.jpg",
+      year: "1955", name: "Ford Thunderbird", tag: "Personal Luxury"
+    },
+  ],
+  row2: [
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Jaguar_E-Type_SI_FHC.jpg/640px-Jaguar_E-Type_SI_FHC.jpg",
+      year: "1961", name: "Jaguar E-Type", tag: "British Grace"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/1954_Mercedes-Benz_300SL_Gullwing_%281%29.jpg/640px-1954_Mercedes-Benz_300SL_Gullwing_%281%29.jpg",
+      year: "1954", name: "Mercedes 300SL Gullwing", tag: "German Icon"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Lancia_Aurelia_B20_GT_%281951%29.jpg/640px-Lancia_Aurelia_B20_GT_%281951%29.jpg",
+      year: "1951", name: "Lancia Aurelia B20", tag: "Italian Soul"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Bugatti_Type_57_Atlantic.jpg/640px-Bugatti_Type_57_Atlantic.jpg",
+      year: "1936", name: "Bugatti Type 57 Atlantic", tag: "Art Deco"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Porsche_356_Speedster.jpg/640px-Porsche_356_Speedster.jpg",
+      year: "1955", name: "Porsche 356 Speedster", tag: "Stuttgart Speed"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Alfa_Romeo_Giulietta_Sprint_%281954%29.jpg/640px-Alfa_Romeo_Giulietta_Sprint_%281954%29.jpg",
+      year: "1954", name: "Alfa Romeo Giulietta", tag: "La Bella Macchina"
+    },
+  ],
+  row3: [
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ferrari_250_GTO.jpg/640px-Ferrari_250_GTO.jpg",
+      year: "1962", name: "Ferrari 250 GTO", tag: "Racing Legend"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Aston_Martin_DB5.jpg/640px-Aston_Martin_DB5.jpg",
+      year: "1963", name: "Aston Martin DB5", tag: "British Speed"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Maserati_A6GCS.jpg/640px-Maserati_A6GCS.jpg",
+      year: "1953", name: "Maserati A6GCS", tag: "Gran Sport"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Shelby_Cobra_427_%281966%29.jpg/640px-Shelby_Cobra_427_%281966%29.jpg",
+      year: "1966", name: "Shelby Cobra 427", tag: "Raw Power"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Lotus_Elan.jpg/640px-Lotus_Elan.jpg",
+      year: "1962", name: "Lotus Elan", tag: "Lightweight Hero"
+    },
+    {
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Lamborghini_Miura.jpg/640px-Lamborghini_Miura.jpg",
+      year: "1966", name: "Lamborghini Miura", tag: "Mid-Engine Pioneer"
+    },
+  ]
+};
+
+// Fallback Unsplash images in case Wikipedia ones fail
+const fallbacks = [
+  "https://images.unsplash.com/photo-1536700503339-1e4b06520771?w=560",
+  "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=560",
+  "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=560",
+  "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=560",
+  "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=560",
+  "https://images.unsplash.com/photo-1567636788276-40a47795ba4d?w=560",
+];
+
+function buildCard(car, idx) {
+  return `
+    <div class="card">
+      <img class="card-img"
+           src="${car.img}"
+           alt="${car.name}"
+           onerror="this.src='${fallbacks[idx % fallbacks.length]}'">
+      <div class="badge-corner">★</div>
+      <div class="card-overlay">
+        <div class="card-year">${car.year}</div>
+        <div class="card-name">${car.name}</div>
+        <div class="card-tag">${car.tag}</div>
+      </div>
+    </div>`;
+}
+
+Object.entries(rows).forEach(([id, cars]) => {
+  const el = document.getElementById(id);
+  // duplicate for seamless loop
+  const html = cars.map((c, i) => buildCard(c, i)).join('');
+  el.innerHTML = html + html;
+});
+</script>
+</body>
+</html>
