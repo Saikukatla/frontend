@@ -33,3 +33,11 @@ function desk(a,b,c){
 
 }
 desk(10,5);
+
+function desk(a,b=25,c=30){
+    console.log(a+b+c);
+    console.log(a+b);
+    console.log(a+c);
+
+}
+desk(10);
