@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        let value = "hello welcome to python class";
+        console.log(value); // output: hello welcome to python class
+        console.log(value.toUpperCase()); //output: HELLO WELCOME TO PYTHON CLASS
+        console.log(value.toLowerCase()); // glo
+        console.log(value.replace("python","js")); // global scope
+        console.log(value.split(" ")); // global scope
+        console.log(value.length); // global scope
+        console.log(value.includes("welcome")); // output: true
+        console.log(value.indexOf("welcome")); // output: 6
+        console.log(value.split("").join("@")); //output: h@e@l@l@o@ @w@e@l@c@o@m@e@ @t@o@ @p@y@t@h@o@n@ @c@l@a@s@s
+        let val = "madam";
+        let rev = val.split("").reverse().join("");
+        console.log(rev); // output: madam
+        if (val === rev) {
+            console.log(val,"palindrome");
+        } else {
+            console.log(val,"not a palindrome");
+        }
+        // math operations
+        console.log(10 + 5); // output: 15
+        console.log(10 - 5); // output: 5
+        console.log(10 * 5); // output: 50  
+        console.log(10 / 5); // output: 2
+        console.log(10 % 3); // output: 1   
+        console.log(10 ** 2); // output: 100
+        console.log(Math.sqrt(16)); // output: 4
+        console.log(Math.pow(2,3)); // output: 8
+        console.log(Math.round(4.5)); // output: 5
+        console.log(Math.floor(4.6)); // output: 4
+        console.log(Math.ceil(4.2)); // output: 5
+        console.log(Math.floor(Math.random() * 10)+1); // output: a random integer between 1 and 10
+
+
+        let date = new Date();
+        console.log(date); // output: current date and time
+        console.log(date.toLocaleDateString()); // output: current date
+        console.log(date.toLocaleTimeString()); // output: current time
+        console.log(date.getFullYear()); // output: current year
+        console.log(date.getMonth() + 1); // output: current month (0-11, so we add 1)
+        console.log(date.getDate()); // output: current day of the month
+        console.log(date.getHours()); // output: current hour
+        console.log(date.getMinutes()); // output: current minute
+        console.log(date.getSeconds()); // output: current second
+        console.log(date.getDay()); // output: current day of the week (0-6, where 0 is Sunday)
+        
+
+
+
+
+
+
+
+
+        
+    </script>
+    
+</body>
+</html>
